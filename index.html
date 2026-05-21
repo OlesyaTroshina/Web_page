@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="Сладость в радость! Олеся Трошина — торты, зефир и пасхальная выпечка в Краснодаре. Кулинарная книга — калькулятор кондитера: рецепты, пересчёт, PDF. Каталог в WhatsApp, Telegram @tort23, канал MAX." />
+  <meta name="theme-color" content="#ffffff" id="meta-theme-color" />
+  <title>Сладость в радость · Олеся Трошина</title>
+  <script>
+    (function () {
+      var key = 'sladost-theme';
+      var stored = localStorage.getItem(key);
+      var theme =
+        stored === 'dark' || stored === 'light'
+          ? stored
+          : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cloud-api.yandex.net" crossorigin />
+  <link rel="dns-prefetch" href="https://images.unsplash.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Outfit:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="style.css?v=20260521a" />
+  <link rel="stylesheet" href="effects.css?v=20260517p" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "name": "Олеся Трошина",
+        "jobTitle": "Кондитер",
+        "address": { "@type": "PostalAddress", "addressLocality": "Краснодар", "addressCountry": "RU" },
+        "sameAs": [
+          "https://t.me/tort23",
+          "https://wa.me/c/79189759453",
+          "https://max.ru/join/YHmbwQWQFd-fwyUWonMEdLHcv-DaVlu6CuXYyiE60S0"
+        ]
+      },
+      {
+        "@type": "LocalBusiness",
+        "name": "Домашняя кондитерская — Олеся Трошина",
+        "description": "Сладость в радость! Торты ручной работы, зефирные композиции, пасхальная выпечка. Кулинарная книга — калькулятор кондитера.",
+        "telephone": "+79189759453",
+        "email": "79189759453@ya.ru",
+        "address": { "@type": "PostalAddress", "addressLocality": "Краснодар", "addressCountry": "RU" }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="page-bg" aria-hidden="true"><span class="page-bg__veil"></span></div>
+  <!-- Публичный архив: https://disk.yandex.ru/d/fdHu3sBaELMAVQ -->
+  <header class="site-header">
+    <div class="shell header__inner">
+      <a href="#top" class="logo" aria-label="На главную — Сладость в радость">
+        <img class="logo__img" src="assets/logo-brand.png" width="120" height="200" alt="Сладость в радость — ручная работа" decoding="async" />
+        <span class="logo__text">Кулинарная <em>книга</em><span class="logo__sub">домашняя кондитерская</span><span class="logo__slogan">Сладость в радость!</span></span>
+      </a>
+      <nav class="nav" aria-label="Основное меню">
+        <a href="#app-spotlight">Приложение</a>
+        <a href="#about">Обо мне</a>
+        <a href="#works">Работы</a>
+        <a href="#process">Как работаю</a>
+        <a href="#app">Интерфейс</a>
+        <a href="#faq">Вопросы</a>
+        <a href="#contact">Связь</a>
+        <a href="#app-spotlight" class="nav__link-app">Кулинарная книга</a>
+      </nav>
+      <div class="header__actions">
+        <button
+          type="button"
+          class="theme-toggle"
+          id="theme-toggle"
+          aria-label="Включить тёмную тему"
+          aria-pressed="false"
+          title="Тёмная тема"
+        >
+          <svg class="theme-toggle__icon theme-toggle__icon--moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M21 14.5A8.5 8.5 0 0 1 9.5 3 10.5 10.5 0 1 0 21 14.5z" />
+          </svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+          </svg>
+        </button>
+        <button type="button" class="burger" aria-label="Открыть меню" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="packaging-corner" aria-hidden="true">
+    <img
+      class="packaging-corner__bow"
+      src="assets/bg/packaging-bow.png"
+      width="800"
+      height="800"
+      alt=""
+      decoding="async"
+      draggable="false"
+    />
+  </div>
+
+  <div class="nav-backdrop" id="nav-backdrop" hidden aria-hidden="true"></div>
+
+  <button type="button" class="floating-cta" data-contact-open aria-haspopup="dialog" aria-controls="contact-modal">
+    <span class="floating-cta__text">Обсудить заказ</span>
+  </button>
+
+  <main id="top">
+    <section class="hero">
+      <div class="shell hero__grid">
+        <div class="hero__copy">
+          <p class="eyebrow eyebrow--row reveal"><span>Домашняя кондитерская · Краснодар</span><span class="eyebrow__badge">Кулинарная книга</span></p>
+          <h1 class="hero__title reveal">Торты ручной работы и <span class="title-accent">цифровой калькулятор кондитера</span> в одной экосистеме</h1>
+          <p class="hero__lead reveal">
+            Я — <strong>Олеся Трошина</strong>. Заказы веду спокойно и аккуратно, а сердце процесса — приложение
+            <strong>«Кулинарная книга — калькулятор кондитера»</strong>: книга рецептов, пересчёт на любой вес, себестоимость, база ингредиентов,
+            технологические карты и красивый PDF. Вы получаете предсказуемый вкус и понятную «математику» заказа — без хаоса в таблицах.
+          </p>
+          <p class="hero__trust reveal">
+            Пеку с любовью для своих родных и близких — и к вашему заказу отношусь с тем же теплом: так же бережно и по-семейному.
+            Для гостя это спокойствие и честность. Для коллег-кондитеров — готовый рабочий порядок: от идеи до печати рецепта.
+          </p>
+          <div class="hero__actions hero__actions--triple reveal">
+            <a href="#app-spotlight" class="btn btn--primary btn--3d">Возможности приложения</a>
+            <a href="#works" class="btn btn--accent btn--3d">Мои работы</a>
+            <button type="button" class="btn btn--ghost btn--3d" data-contact-open aria-haspopup="dialog" aria-controls="contact-modal">Заказать десерт</button>
+          </div>
+        </div>
+
+        <div class="hero__visual parallax-wrap reveal reveal--delay" data-depth="0.06">
+          <div class="hero__plate parallax" data-depth-child>
+            <img
+              class="hero__photo"
+              src="assets/foto robot/Торты/20260113_205854.jpg"
+              alt="Торт ручной работы — Олеся Трошина"
+              width="900"
+              height="1100"
+              loading="eager"
+              draggable="false"
+            />
+            <div class="hero__glow" aria-hidden="true"></div>
+          </div>
+
+          <div class="float-card float-card--1 glass-card parallax" data-depth-child>
+            <span class="float-card__tag">Рецепт</span>
+            <p class="float-card__title">Ваниль · ягоды</p>
+            <p class="float-card__meta">Пересчёт на 12 / 24 порции</p>
+            <div class="float-card__chips">
+              <span class="chip">ингредиенты</span>
+              <span class="chip chip--accent">себестоимость</span>
+            </div>
+          </div>
+
+          <div class="float-card float-card--2 glass-card parallax" data-depth-child>
+            <span class="float-card__tag float-card__tag--muted">Категории</span>
+            <ul class="mini-list">
+              <li>торты</li>
+              <li>пирожные</li>
+              <li>зефир</li>
+            </ul>
+            <button type="button" class="mini-btn" tabindex="-1">Открыть карточку</button>
+          </div>
+
+          <div class="float-card float-card--3 glass-card parallax" data-depth-child>
+            <span class="float-card__tag">Техкарта</span>
+            <p class="float-card__title">Стабильный результат</p>
+            <div class="progress"><span style="width: 88%"></span></div>
+            <p class="float-card__meta">точные пропорции и сроки</p>
+          </div>
+
+          <div class="particles" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="app-spotlight" class="section app-spotlight">
+      <div class="shell">
+        <header class="section__head reveal">
+          <p class="eyebrow">Кулинарная книга — калькулятор кондитера</p>
+          <h2 class="section__title">Приложение, ради которого стоит задержаться на странице</h2>
+          <p class="section__sub">
+            Это не «ещё один блокнот», а связка <strong>рецепт → расчёт → финансы → печать</strong>. Я использую его в каждом заказе; тем же инструментом
+            могут пользоваться и другие кондитеры — чтобы убрать рутину и сосредоточиться на вкусе и декоре.
+          </p>
+        </header>
+        <div class="app-spotlight__grid">
+          <article class="app-tile reveal">
+            <span class="app-tile__icon" aria-hidden="true">◎</span>
+            <h3>Книга рецептов</h3>
+            <p>Все заготовки и торты в одном месте: поиск, категории, фото и веса — как в живой студии.</p>
+          </article>
+          <article class="app-tile reveal">
+            <span class="app-tile__icon" aria-hidden="true">∿</span>
+            <h3>Пересчёт без ошибок</h3>
+            <p>Любой вес и форма: приложение пересчитает ингредиенты и этапы, чтобы бисквит и крем не «поехали».</p>
+          </article>
+          <article class="app-tile reveal">
+            <span class="app-tile__icon" aria-hidden="true">₽</span>
+            <h3>Себестоимость и база</h3>
+            <p>Понятная картина по продуктам и ценам — меньше сюрпризов в конце месяца и в коммуникации с клиентом.</p>
+          </article>
+          <article class="app-tile reveal">
+            <span class="app-tile__icon" aria-hidden="true">▤</span>
+            <h3>Техкарты и порядок</h3>
+            <p>Технологические карты и последовательность действий — чтобы команда и вы сами не теряли нить процесса.</p>
+          </article>
+          <article class="app-tile reveal">
+            <span class="app-tile__icon" aria-hidden="true">✦</span>
+            <h3>PDF под печать</h3>
+            <p>Оформление рецепта и предпросмотр PDF — аккуратный документ «для кухни и для клиента».</p>
+          </article>
+          <article class="app-tile reveal">
+            <span class="app-tile__icon" aria-hidden="true">⌁</span>
+            <h3>Импорт и масштаб</h3>
+            <p>Импорт из Excel и работа с большими заказами — когда нужно выдержать сезон или корпоратив.</p>
+          </article>
+        </div>
+        <div class="app-spotlight__cta reveal">
+          <a href="#app" class="btn btn--primary btn--3d">Смотреть интерфейс</a>
+          <a href="mailto:79189759453@ya.ru?subject=%D0%9A%D1%83%D0%BB%D0%B8%D0%BD%D0%B0%D1%80%D0%BD%D0%B0%D1%8F%20%D0%BA%D0%BD%D0%B8%D0%B3%D0%B0%20%E2%80%94%20%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81" class="btn btn--ghost btn--3d">Написать про приложение</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section about">
+      <div class="shell about__grid">
+        <figure class="about__photo glass-card reveal">
+          <img
+            src="assets/foto robot/Зефирные композиции/1.jpg"
+            alt="Зефирная композиция в виде роз в корзине с атласным бантом"
+            width="800"
+            height="1000"
+            loading="lazy"
+          />
+          <figcaption>Зефирные розы ручной работы — нежный подарок с заботой о каждой детали</figcaption>
+        </figure>
+        <div class="about__text reveal">
+          <h2 class="section__title">Обо мне</h2>
+          <p class="lead">
+            Путь начался с домашних тортов для родных и близких: я пеку с любовью для своих — и хочу, чтобы у вас дома было то же чувство «как для своих».
+            Хотелось, чтобы каждый кусочек был вкусным до последней крошки и выглядел так,
+            как будто об этом думали долго и неспешно.
+          </p>
+          <p>
+            Со временем это превратилось в небольшую студию без конвейера: я беру ограниченное число заказов, чтобы успевать
+            на проработку вкуса, текстуры и декора. Для меня важны мелочи — баланс сладости, чистый вкус шоколада, нежный бисквит,
+            аккуратная упаковка.
+          </p>
+          <p>
+            <strong>«Кулинарная книга — калькулятор кондитера»</strong> — мой главный рабочий инструмент: здесь живут рецепты, пересчёты, себестоимость и PDF.
+            Благодаря ему я быстрее отвечаю на вопросы о составе и сроках и спокойнее захожу в большие заказы — цифра и вкус идут рядом, без самообмана.
+          </p>
+          <blockquote class="quote glass-card">
+            «Красота десерта — в дисциплине рецепта и тепле рук. Остальное — детали, которые замечают сердцем.»
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <section id="works" class="section works">
+      <div class="shell">
+        <header class="section__head reveal">
+          <h2 class="section__title">Работы</h2>
+          <p class="section__sub">
+            Здесь — то, что я делаю руками: <strong>зефирные композиции</strong>, <strong>пасхальная выпечка</strong> и <strong>торты</strong>.
+            Нажмите на кадр или откройте полную подборку — фото открываются здесь же, без перехода на сторонние страницы.
+          </p>
+        </header>
+        <p id="works-status" class="works-status" role="status">Подгружаю фото…</p>
+        <div id="works-bounce-row" class="works-stack-row" aria-label="Превью работ по категориям"></div>
+        <div class="works-cta-wrap">
+          <button type="button" id="works-more-btn" class="btn btn--ghost btn--3d" disabled>Посмотреть ещё работы</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="process" class="section process">
+      <div class="shell">
+        <header class="section__head reveal">
+          <h2 class="section__title">Как я работаю</h2>
+          <p class="section__sub">Прозрачно и без суеты — от идеи до аккуратной коробки в ваших руках.</p>
+        </header>
+        <ol class="steps">
+          <li class="step reveal">
+            <span class="step__num">1</span>
+            <h3>Обсуждаем идею</h3>
+            <p>Повод, настроение, пожелания по вкусу и стилю. Можно прислать референсы — я помогу отделить реальное от Pinterest-иллюзий.</p>
+          </li>
+          <li class="step reveal">
+            <span class="step__num">2</span>
+            <h3>Подбираем вкус и оформление</h3>
+            <p>Согласуем начинку, декор, палитру и подачу. Всё фиксирую понятным списком, чтобы не было сюрпризов в день получения.</p>
+          </li>
+          <li class="step reveal">
+            <span class="step__num">3</span>
+            <h3>Рецепт и расчёты в «Кулинарной книге»</h3>
+            <p>На этом этапе подключается приложение целиком: пересчёт порций и форм, проверка соотношений, себестоимость, база ингредиентов и технологическая карта — чтобы вкус, текстура и сроки совпали с обещанным.</p>
+          </li>
+          <li class="step reveal">
+            <span class="step__num">4</span>
+            <h3>Вы получаете десерт</h3>
+            <p>Аккуратная сборка, бережная упаковка и короткая памятка по хранению — чтобы момент встречи с тортом был только радостным.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="app" class="section app-block">
+      <div class="shell app-block__inner glass-card reveal">
+        <div class="app-block__copy">
+          <p class="eyebrow eyebrow--dark">Флагман страницы</p>
+          <h2 class="section__title">Кулинарная книга — калькулятор кондитера</h2>
+          <p class="app-block__tagline">Рецепты · пересчёт · себестоимость · PDF · база · техкарты — в одном окне, в стиле «Книги рецептов».</p>
+          <p class="lead">
+            Я открыто показываю интерфейс: это и моя реклама качества, и приглашение коллегам попробовать тот же подход.
+            Если вы кондитер или студия — напишите, обсудим, как «Кулинарная книга» может лечь в основу ваших процессов.
+          </p>
+          <ul class="checklist checklist--dense">
+            <li><strong>Книга рецептов</strong> с поиском, весами и фото — порядок вместо хаоса в чатах и скриншотах;</li>
+            <li><strong>Автопересчёт</strong> на любой вес, форму и число порций без ручных таблиц;</li>
+            <li><strong>Себестоимость</strong> и прозрачность по ингредиентам — удобно и вам, и мне при согласовании заказа;</li>
+            <li><strong>Технологические карты</strong> и пошаговая логика — меньше ошибок на кухне;</li>
+            <li><strong>База продуктов и материалов</strong> — единая точка правды для закупок;</li>
+            <li><strong>Импорт из Excel</strong> — если вы уже вели учёт в таблицах;</li>
+            <li><strong>PDF и оформление</strong> — красивый документ для печати и для клиента.</li>
+          </ul>
+          <div class="app-block__cta-row">
+            <a href="#contact" class="btn btn--primary btn--3d">Заказать десерт</a>
+            <a href="mailto:79189759453@ya.ru?subject=%D0%9A%D1%83%D0%BB%D0%B8%D0%BD%D0%B0%D1%80%D0%BD%D0%B0%D1%8F%20%D0%BA%D0%BD%D0%B8%D0%B3%D0%B0" class="btn btn--accent btn--3d">Вопрос по приложению</a>
+          </div>
+        </div>
+        <div class="app-block__mock">
+          <figure class="app-window" role="group" aria-label="Скриншот приложения">
+            <div class="app-window__chrome" aria-hidden="true">
+              <span class="app-window__dot"></span>
+              <span class="app-window__dot"></span>
+              <span class="app-window__dot"></span>
+              <span class="app-window__title">Книга рецептов</span>
+            </div>
+            <div class="app-window__body">
+              <picture>
+                <source media="(min-width: 960px)" srcset="assets/app-kniga-ui-wide.png" />
+                <img
+                  src="assets/app-kniga-ui.png"
+                  alt="Интерфейс «Книга рецептов»: поиск, карточки десертов, кнопки действий, база ингредиентов и финансы"
+                  width="1400"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+            </div>
+          </figure>
+          <p class="app-block__hint">Реальный интерфейс «Книги рецептов»: тёплый розовый фон, стеклянные панели, сдержанные золотые действия и предпросмотр PDF — та же логика цвета, что и на лендинге.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="benefits" class="section benefits">
+      <div class="shell">
+        <header class="section__head reveal">
+          <h2 class="section__title">Почему со мной спокойно</h2>
+          <p class="section__sub">Ясность, порядок и спокойный ритм — ещё до того, как вы оформите заказ.</p>
+        </header>
+        <div class="cards-grid">
+          <article class="benefit reveal"><h3>Натуральные ингредиенты</h3><p>Честный состав без лишнего «химического блеска».</p></article>
+          <article class="benefit reveal"><h3>Аккуратная сборка</h3><p>Ровные слои, чистые края, бережная упаковка.</p></article>
+          <article class="benefit reveal"><h3>Стабильное качество</h3><p>Рецептуры и процессы — в цифре и по технологии.</p></article>
+          <article class="benefit reveal"><h3>Индивидуальный подход</h3><p>Ограниченный поток заказов и живое общение.</p></article>
+          <article class="benefit reveal"><h3>«Кулинарная книга» в заказе</h3><p>Клиент получает ясность: состав, веса и логика без «на глаз» — доверие крепнет.</p></article>
+          <article class="benefit reveal"><h3>PDF и техкарты</h3><p>Из приложения — сразу в кухню: аккуратные листы и порядок в сборке.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="reviews" class="section reviews">
+      <div class="shell">
+        <div class="reviews__intro-row">
+          <div id="reviews-mount" class="reviews__mount">
+            <div id="reviews-swap-wrap" class="reviews__swap-wrap" hidden>
+              <div id="reviews-swap-root"></div>
+            </div>
+            <div id="reviews-grid" class="reviews__grid" aria-label="Реальные отзывы гостей" hidden></div>
+            <article id="reviews-fallback" class="reviews__fallback glass-card reveal">
+              <div class="reviews__fallback-inner">
+                <p class="reviews__fallback-kicker">Канал</p>
+                <h3 class="reviews__fallback-title">@tort23 — торты, зефир, Краснодар</h3>
+                <div class="reviews__fallback-actions">
+                  <a href="https://t.me/tort23" class="btn btn--primary btn--3d" target="_blank" rel="noopener noreferrer">Открыть @tort23</a>
+                  <a href="https://wa.me/c/79189759453" class="btn btn--ghost btn--3d" target="_blank" rel="noopener noreferrer">Каталог в WhatsApp</a>
+                </div>
+              </div>
+            </article>
+          </div>
+          <header class="section__head section__head--reviews reveal">
+            <h2 class="section__title">Реальные отзывы</h2>
+            <p class="section__sub section__sub--muted reviews__dek" title="Отзывы подгружаются из Telegram при доступе к сети">@tort23 ТГ канала
+              
+            </p>
+
+            <p class="reviews__hint">Авто-смена.</p>
+          </header>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="section faq">
+      <div class="shell shell--narrow">
+        <header class="section__head reveal">
+          <h2 class="section__title">Частые вопросы</h2>
+        </header>
+        <div class="faq__list">
+          <details class="faq__item glass-card reveal">
+            <summary>Сколько времени занимает заказ?</summary>
+            <p>Обычно от нескольких дней до 2 недель — зависит от сложности и загрузки. Напишите заранее, особенно к высокому сезону.</p>
+          </details>
+          <details class="faq__item glass-card reveal">
+            <summary>Можно ли полностью индивидуальный торт или набор?</summary>
+            <p>Да. Пришлите идеи по вкусу, форме, декору и поводу — разберём, что устойчиво в транспорте, что успеет «сойтись» по текстурам к вашей дате и что честно сделать руками без конвейера. Итог — в явном списке: слои, оформление, цвет, надписи и сроки, чтобы не осталось пространства для догадок.</p>
+          </details>
+          <details class="faq__item glass-card reveal">
+            <summary>Какие начинки бывают?</summary>
+            <p>Ягодные, шоколадные, ореховые, карамельные, цитрусовые — подберём под сезон и ваш вкус. Ограничения по аллергенам учту заранее.</p>
+          </details>
+          <details class="faq__item glass-card reveal">
+            <summary>Как хранить десерты?</summary>
+            <p>К каждому заказу даю короткую памятку: температура, срок, нюансы нарезки — чтобы вы не гадали.</p>
+          </details>
+          <details class="faq__item glass-card reveal">
+            <summary>Как оформить заказ?</summary>
+            <p>
+              Напишите на почту, позвоните или выберите удобный канал:
+              <a href="https://wa.me/c/79189759453" target="_blank" rel="noopener noreferrer">каталог в WhatsApp</a>,
+              <a href="https://t.me/tort23" target="_blank" rel="noopener noreferrer">Telegram @tort23</a>,
+              <a href="https://max.ru/join/YHmbwQWQFd-fwyUWonMEdLHcv-DaVlu6CuXYyiE60S0" target="_blank" rel="noopener noreferrer">MAX</a>
+              — расскажите дату, число гостей и пожелания по вкусу. Отвечу с вариантами и следующими шагами.
+            </p>
+          </details>
+          <details class="faq__item glass-card reveal">
+            <summary>Что такое «Кулинарная книга» для меня как для гостя?</summary>
+            <p>Это внутренний инструмент кондитера: в нём считаются рецепты, веса и себестоимость. Для вас это означает аккуратный подход и меньше хаоса — я могу спокойно объяснить состав, масштаб и сроки, опираясь на цифры, а не на удачу.</p>
+          </details>
+          <details class="faq__item glass-card reveal">
+            <summary>Я кондитер — могу ли я использовать то же приложение?</summary>
+            <p>Напишите на почту с темой «Кулинарная книга» — расскажу, как устроен мой рабочий процесс и что даёт калькулятор в ежедневной практике. Технически это HTML-приложение «Книга рецептов» с расширенным функционалом под кондитерскую студию.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section cta">
+      <div class="shell cta__dual reveal">
+        <div class="cta__panel">
+          <h2 class="cta__title">Десерт на ваш праздник</h2>
+          <p class="cta__text">Расскажите о поводе и вкусе — предложу варианты и сроки. Все расчёты веду в «Кулинарной книге», чтобы совпали ожидания и результат.</p>
+          <p class="cta__warm">Пеку с любовью для родных и близких — и к вашему заказу подхожу с тем же теплом: хочется, чтобы у вас дома было «как для своих».</p>
+          <div class="cta__actions">
+            <button type="button" class="btn btn--primary btn--3d btn--xl" data-contact-open aria-haspopup="dialog" aria-controls="contact-modal">Написать мне</button>
+            <a href="tel:+79189759453" class="btn btn--ghost btn--3d btn--xl">Позвонить</a>
+          </div>
+          <p class="cta__note">Каталог в WhatsApp — <a href="https://wa.me/c/79189759453" target="_blank" rel="noopener noreferrer">открыть витрину</a>. Или каналы: <a href="https://t.me/tort23" target="_blank" rel="noopener noreferrer">Telegram @tort23</a> и <a href="https://max.ru/join/YHmbwQWQFd-fwyUWonMEdLHcv-DaVlu6CuXYyiE60S0" target="_blank" rel="noopener noreferrer">MAX</a> (дубли в подвале).</p>
+        </div>
+        <div class="cta__panel cta__panel--app">
+          <p class="eyebrow eyebrow--dark">Кулинарная книга</p>
+          <h2 class="cta__title">Узнать больше про приложение</h2>
+          <p class="cta__text">Интерфейс, пересчёт, PDF и база — в блоке выше. Если вы мастер или студия и хотите такой же порядок в рецептах, напишите.</p>
+          <a href="#app" class="btn btn--accent btn--3d btn--xl">К демо интерфейса</a>
+          <a href="mailto:79189759453@ya.ru?subject=%D0%9A%D1%83%D0%BB%D0%B8%D0%BD%D0%B0%D1%80%D0%BD%D0%B0%D1%8F%20%D0%BA%D0%BD%D0%B8%D0%B3%D0%B0" class="btn btn--ghost btn--3d btn--xl">Письмо про приложение</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer wood">
+    <div class="footer__bends color-bends-container" aria-hidden="true"></div>
+    <div class="footer__veil" aria-hidden="true"></div>
+    <div class="shell shell--footer footer__grid">
+      <div class="footer__main">
+        <div class="footer__brand">
+          <a href="#top" class="logo logo--footer" aria-label="На главную">
+            <img class="logo__img" src="assets/logo-brand.png" width="120" height="200" alt="" loading="lazy" decoding="async" />
+            <span class="logo__text">Кулинарная <em>книга</em><span class="logo__sub">домашняя кондитерская</span><span class="logo__slogan">Сладость в радость!</span></span>
+          </a>
+          <p class="footer__tagline"><strong>Сладость в радость!</strong> · Кулинарная книга · Олеся Трошина · Краснодар</p>
+          <p class="footer__heart">С любовью для родных и близких — и для гостей, которые доверяют процессу.</p>
+        </div>
+        <div class="footer__contacts">
+          <div class="footer__links-row">
+            <a class="footer__link" href="tel:+79189759453">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span>+7 918 975-94-53</span>
+            </a>
+            <a class="footer__link" href="mailto:79189759453@ya.ru?subject=Заказ%20десерта">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <span>79189759453@ya.ru</span>
+            </a>
+          </div>
+          <p class="footer__addr">
+            <a href="https://wa.me/c/79189759453" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+            · <a href="https://t.me/tort23" target="_blank" rel="noopener noreferrer">Telegram</a>
+            · <a href="https://max.ru/join/YHmbwQWQFd-fwyUWonMEdLHcv-DaVlu6CuXYyiE60S0" target="_blank" rel="noopener noreferrer">MAX</a>
+          </p>
+        </div>
+      </div>
+      <div class="footer__social">
+        <a href="https://wa.me/c/79189759453" class="social-btn social-btn--wa" target="_blank" rel="noopener noreferrer" aria-label="Каталог в WhatsApp">WA</a>
+        <a href="https://t.me/tort23" class="social-btn social-btn--tg" target="_blank" rel="noopener noreferrer" aria-label="Telegram: торты и зефир, Краснодар">TG</a>
+        <a href="https://max.ru/join/YHmbwQWQFd-fwyUWonMEdLHcv-DaVlu6CuXYyiE60S0" class="social-btn social-btn--max" target="_blank" rel="noopener noreferrer" aria-label="MAX: канал Сладость в радость">MAX</a>
+      </div>
+    </div>
+    <p class="footer__copy">© <span id="year"></span> · Олеся Трошина · Все права защищены</p>
+  </footer>
+
+  <div
+    id="contact-modal"
+    class="contact-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-hidden="true"
+    aria-labelledby="contact-modal-title"
+  >
+    <div class="contact-modal__backdrop" tabindex="-1"></div>
+    <div class="contact-modal__panel">
+      <div class="contact-modal__chrome">
+        <button type="button" class="contact-modal__close carousel-glass-btn" aria-label="Закрыть форму">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="contact-modal__body">
+        <h2 id="contact-modal-title" class="contact-modal__title">Написать мне</h2>
+        <p class="contact-modal__lead">Оставьте телефон или почту — отвечу и предложу варианты по заказу или приложению.</p>
+        <form id="contact-form" class="contact-form" novalidate>
+          <label class="contact-field">
+            <span class="contact-field__label">Телефон</span>
+            <span class="contact-field__control">
+              <span class="contact-field__icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </span>
+              <input
+                class="contact-field__input"
+                type="tel"
+                id="contact-phone"
+                name="phone"
+                inputmode="tel"
+                autocomplete="tel"
+                placeholder="+7 918 000-00-00"
+              />
+            </span>
+          </label>
+          <label class="contact-field">
+            <span class="contact-field__label">Почта</span>
+            <span class="contact-field__control">
+              <span class="contact-field__icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </span>
+              <input
+                class="contact-field__input"
+                type="email"
+                id="contact-email"
+                name="email"
+                inputmode="email"
+                autocomplete="email"
+                placeholder="ваш@email.ru"
+              />
+            </span>
+          </label>
+          <p class="contact-form__hint">Укажите телефон или почту — хотя бы одно поле.</p>
+          <label class="contact-field contact-field--area">
+            <span class="contact-field__label">Сообщение <span class="contact-field__optional">(необязательно)</span></span>
+            <textarea
+              class="contact-field__input contact-field__input--area"
+              id="contact-message"
+              name="message"
+              rows="3"
+              placeholder="Повод, вкус, дата…"
+            ></textarea>
+          </label>
+          <label class="contact-consent">
+            <input class="contact-consent__input" type="checkbox" id="contact-consent" name="consent" required />
+            <span class="contact-consent__box" aria-hidden="true"></span>
+            <span class="contact-consent__text">Даю согласие на обработку моих персональных данных</span>
+          </label>
+          <p class="contact-form__error" id="contact-form-error" role="alert" hidden></p>
+          <button type="submit" class="btn btn--primary btn--3d btn--xl contact-form__submit">Отправить</button>
+        </form>
+        <p class="contact-modal__channels-label">Или напишите в мессенджерах</p>
+        <div class="contact-modal__channels" aria-label="Каналы связи">
+          <a href="https://wa.me/c/79189759453" class="social-btn social-btn--wa" target="_blank" rel="noopener noreferrer" aria-label="Каталог в WhatsApp">WA</a>
+          <a href="https://t.me/tort23" class="social-btn social-btn--tg" target="_blank" rel="noopener noreferrer" aria-label="Telegram: торты и зефир, Краснодар">TG</a>
+          <a href="https://max.ru/join/YHmbwQWQFd-fwyUWonMEdLHcv-DaVlu6CuXYyiE60S0" class="social-btn social-btn--max" target="_blank" rel="noopener noreferrer" aria-label="MAX: канал Сладость в радость">MAX</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="vendor/gsap.min.js"></script>
+  <script src="vendor/three.min.js"></script>
+  <script src="vendor/color-bends.js"></script>
+  <script src="vendor/splash-cursor.js"></script>
+  <script src="site.js?v=20260521a"></script>
+  <!-- Дублирует works-manifest.json: нужен при открытии index.html как file:// (fetch к JSON недоступен). После правок манифеста обновите и этот блок. -->
+  <script type="application/json" id="works-manifest-data">{"categories":[{"images":["assets/foto robot/Зефирные композиции/20240221_035625.jpg","assets/foto robot/Зефирные композиции/20240221_040807.jpg","assets/foto robot/Зефирные композиции/20240226_221614.jpg","assets/foto robot/Зефирные композиции/20241008_162315.jpg","assets/foto robot/Зефирные композиции/20241016_120151.jpg","assets/foto robot/Зефирные композиции/20241016_130651.jpg","assets/foto robot/Зефирные композиции/20241016_130656.jpg","assets/foto robot/Зефирные композиции/20250206_011341.jpg","assets/foto robot/Зефирные композиции/20250206_011753.jpg","assets/foto robot/Зефирные композиции/20250606_031359.jpg","assets/foto robot/Зефирные композиции/20250607_060647.jpg","assets/foto robot/Зефирные композиции/20250616_023832.jpg","assets/foto robot/Зефирные композиции/20250619_005110.jpg","assets/foto robot/Зефирные композиции/20250711_184737.jpg","assets/foto robot/Зефирные композиции/20250711_184758.jpg","assets/foto robot/Зефирные композиции/20250711_205150.jpg","assets/foto robot/Зефирные композиции/20250831_114236.jpg","assets/foto robot/Зефирные композиции/20251003_215651.jpg","assets/foto robot/Зефирные композиции/20260409_041530.jpg","assets/foto robot/Зефирные композиции/20260411_175257.jpg","assets/foto robot/Зефирные композиции/IMG_20241016_131728_341.jpg","assets/foto robot/Зефирные композиции/IMG_20250205_212526_057.jpg"],"title":"Зефирные композиции","id":"зефирные-композиции"},{"images":["assets/foto robot/Пасхальная выпечка/20250419_212825.jpg","assets/foto robot/Пасхальная выпечка/20250419_212832.jpg","assets/foto robot/Пасхальная выпечка/20250419_234724.jpg","assets/foto robot/Пасхальная выпечка/20260411_072752.jpg","assets/foto robot/Пасхальная выпечка/20260411_145743.jpg","assets/foto robot/Пасхальная выпечка/20260411_145902.jpg","assets/foto robot/Пасхальная выпечка/20260411_150141.jpg","assets/foto robot/Пасхальная выпечка/20260411_150149.jpg","assets/foto robot/Пасхальная выпечка/20260411_150159.jpg","assets/foto robot/Пасхальная выпечка/20260411_150229.jpg","assets/foto robot/Пасхальная выпечка/20260411_150315.jpg","assets/foto robot/Пасхальная выпечка/20260411_150325.jpg","assets/foto robot/Пасхальная выпечка/20260412_172532.jpg"],"title":"Пасхальная выпечка","id":"пасхальная-выпечка"},{"images":["assets/foto robot/Торты/20240104_080154.jpg","assets/foto robot/Торты/20240210_211112.jpg","assets/foto robot/Торты/20240607_084543.jpg","assets/foto robot/Торты/20240823_160941.jpg","assets/foto robot/Торты/20240901_074046.jpg","assets/foto robot/Торты/20240912_081248.jpg","assets/foto robot/Торты/20240912_081301.jpg","assets/foto robot/Торты/20241207_205317.png","assets/foto robot/Торты/20250107_050854.jpg","assets/foto robot/Торты/20250107_153045.jpg","assets/foto robot/Торты/20250521_193815.jpg","assets/foto robot/Торты/20250524_064338.jpg","assets/foto robot/Торты/20250607_041125.jpg","assets/foto robot/Торты/20251010_000735.jpg","assets/foto robot/Торты/20251213_184038.jpg","assets/foto robot/Торты/20251231_011151.jpg","assets/foto robot/Торты/20260107_172759.jpg","assets/foto robot/Торты/20260113_182453.jpg","assets/foto robot/Торты/20260113_205854.jpg","assets/foto robot/Торты/20260113_205858.jpg","assets/foto robot/Торты/IMG_20241026_223945_432.jpg"],"title":"Торты","id":"торты"}]}</script>
+  <script src="effects.js?v=20260517r"></script>
+  <script type="application/json" id="reviews-tg-data">
+{"_readme":"Цитаты с канала @tort23. post — только ссылка на конкретный пост (…/tort23/123). На сайте показываются первые 24 записи.","items":[{"name":"Гостья","text":"Этот тортик заказывала для своего сыночка. Превзошел все ожидания. Кондитер выполнил все мои хотелки. Тортик сочный, сладкий, крем нежный и весь тортик хорошо пропитан. Олеся спасибо тебе большое!!!","stars":5},{"name":"Гостья","text":"Слов нет кра сот. И. Вкусняшка на картинке это одно вкус не передать","stars":5},{"name":"Гостья","text":"Вкуснее не пробовала. Лично проверено. 😋😋😋","stars":5},{"name":"Гостья","text":"Вкусняшка как всегда 👍👍👍👍👍👍","stars":5},{"name":"Гостья","text":"Мне и то и это...это самый вкусный зефир в моей жищни","stars":5},{"name":"Гостья","text":"Торт очень вкусный и красивый. Олесинька испекла мне на день рождения все гости были в восторге .а корзинку я ем сама зефирные пионы с клубничкой внутри","stars":5},{"name":"Гостья","text":"Олесечка, какая же ты умница , целую твой золотые ручки💋👍🔥","stars":5},{"name":"Гостья","text":"Вот это котик, просто прелесть необыкновенная 👍💋","stars":5},{"name":"Гостья","text":"Твои. Торты как в той сказке только царю на стол ❤️","stars":5},{"name":"Гостья","text":"Вот это шедевр ❤️‍🔥❤️‍🔥❤️‍🔥","stars":5},{"name":"Гостья","text":"Сама оригинальность и красота, а внутри вкуснятина, элегантный с мягким и воздушным кремом. Просто класс. ❤️","stars":5},{"name":"Гостья","text":"очень вкусный, нежный, вмеру сладкий","stars":5},{"name":"Гостья","text":"Заказали торт на день рождения сына. И я была в восторге от него. Вкусный, сочный. Теперь только у нее буду заказывать тортики. Спасибо Олеся за вкусный и красивый торт 😘","stars":5},{"name":"Гостья","text":"Очень вкусный торт, нежный, в меру сладкий и внутри есть карамелизированные орешки, бисквит обалденный. Больше всего детям нравится крем: нежный и тает во рту, хочется после первого кусочка, еще второй и третий и так торт все съели. Спасибо большое за такое вкусное творчество.","stars":5},{"name":"Гостья","text":"Очень красивые розы, 🌹🌹🌹. Букет супер!","stars":5},{"name":"Гостья","text":"Если бы не этот торт,праздник не был бы таким атмосферным❤️❤️❤️","stars":5},{"name":"Гостья","text":"Очень вкусный тортик, спасибо большое мы съели всей семьей 💕😻","stars":5},{"name":"Гостья","text":"Отзыв по заказу, сравнили с натуральными розами ❤️🥰","stars":5}]}
+  </script>
+  <script>
+    (function () {
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      var canParallax =
+        window.matchMedia &&
+        window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+        window.matchMedia('(max-width: 1024px)').matches === false;
+      if (canParallax) {
+        document.querySelectorAll('.parallax-wrap').forEach(function (wrap) {
+          var strength = parseFloat(wrap.getAttribute('data-depth')) || 0.08;
+          wrap.addEventListener('mousemove', function (e) {
+            var r = wrap.getBoundingClientRect();
+            var x = (e.clientX - r.left) / r.width - 0.5;
+            var y = (e.clientY - r.top) / r.height - 0.5;
+            wrap.querySelectorAll('[data-depth-child]').forEach(function (el, i) {
+              var m = (i + 1) * strength * 18;
+              el.style.transform = 'translate(' + (-x * m) + 'px,' + (-y * m) + 'px)';
+            });
+          });
+          wrap.addEventListener('mouseleave', function () {
+            wrap.querySelectorAll('[data-depth-child]').forEach(function (el) {
+              el.style.transform = '';
+            });
+          });
+        });
+      } else {
+        document.querySelectorAll('.parallax-wrap [data-depth-child]').forEach(function (el) {
+          el.style.transform = '';
+        });
+      }
+
+      function resetMobileViewport() {
+        if (window.scrollX !== 0) window.scrollTo(0, window.scrollY || 0);
+        document.documentElement.style.setProperty('--vw', document.documentElement.clientWidth * 0.01 + 'px');
+      }
+      resetMobileViewport();
+      window.addEventListener('orientationchange', function () {
+        setTimeout(resetMobileViewport, 100);
+      });
+      window.addEventListener('resize', resetMobileViewport);
+
+      var observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (en) {
+            if (en.isIntersecting) {
+              en.target.classList.add('visible');
+              requestAnimationFrame(function () {
+                requestAnimationFrame(function () {
+                  if (window.SladostEffects && window.SladostEffects.boltBorderGlowForReveal) {
+                    window.SladostEffects.boltBorderGlowForReveal(en.target);
+                  }
+                });
+              });
+              observer.unobserve(en.target);
+            }
+          });
+        },
+        { threshold: 0.08, rootMargin: '0px 0px -6% 0px' }
+      );
+      document.querySelectorAll('.reveal').forEach(function (el) {
+        observer.observe(el);
+      });
+
+      (function loadTgReviews() {
+        var grid = document.getElementById('reviews-grid');
+        var fallback = document.getElementById('reviews-fallback');
+        if (!grid || !fallback) return;
+
+        function starsRow(n) {
+          var m = parseInt(n, 10);
+          if (isNaN(m)) m = 5;
+          m = Math.max(1, Math.min(5, m));
+          var s = '';
+          for (var i = 0; i < 5; i++) s += i < m ? '★' : '☆';
+          return s;
+        }
+
+        function observeReviewCard(el) {
+          observer.observe(el);
+        }
+
+        function parseReviewsData(raw) {
+          try {
+            return typeof raw === 'string' ? JSON.parse(raw) : raw;
+          } catch (e) {
+            return null;
+          }
+        }
+
+        function readEmbeddedReviews() {
+          var el = document.getElementById('reviews-tg-data');
+          if (!el || !el.textContent) return null;
+          return parseReviewsData(el.textContent.trim());
+        }
+
+        function normalizeItems(data) {
+          if (!data || !Array.isArray(data.items)) return [];
+          return data.items.filter(function (it) {
+            return it && String(it.text || '').trim().length > 0;
+          });
+        }
+
+        function createReviewNode(item, forSwap) {
+          var name = String(item.name || 'Гость').trim() || 'Гость';
+          var letter = name.charAt(0).toUpperCase();
+          var outer = document.createElement(forSwap ? 'div' : 'article');
+          outer.className = forSwap ? 'review review--swap' : 'review glass-card reveal';
+          var top = document.createElement('div');
+          top.className = 'review__top';
+          var av = document.createElement('div');
+          av.className = 'review__avatar review__avatar--initial';
+          av.setAttribute('aria-hidden', 'true');
+          av.textContent = letter;
+          var meta = document.createElement('div');
+          var pName = document.createElement('p');
+          pName.className = 'review__name';
+          pName.textContent = name;
+          var pStars = document.createElement('p');
+          pStars.className = 'review__stars';
+          var sn = parseInt(item.stars, 10);
+          if (isNaN(sn)) sn = 5;
+          pStars.setAttribute('aria-label', sn + ' из 5');
+          pStars.textContent = starsRow(item.stars);
+          meta.appendChild(pName);
+          meta.appendChild(pStars);
+          top.appendChild(av);
+          top.appendChild(meta);
+          var pText = document.createElement('p');
+          pText.className = 'review__text';
+          pText.textContent = String(item.text).trim();
+          outer.appendChild(top);
+          outer.appendChild(pText);
+          if (item.post && /t\.me\/[^/]+\/\d+/i.test(String(item.post).trim())) {
+            var src = document.createElement('p');
+            src.className = 'review__source';
+            var a = document.createElement('a');
+            a.href = String(item.post).trim();
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            a.textContent = 'Пост в канале →';
+            src.appendChild(a);
+            outer.appendChild(src);
+          }
+          return outer;
+        }
+
+        function renderFromItems(items) {
+          if (!items.length) return;
+          var swapRoot = document.getElementById('reviews-swap-root');
+          var swapWrap = document.getElementById('reviews-swap-wrap');
+          var canSwap =
+            items.length >= 2 &&
+            window.gsap &&
+            window.SladostEffects &&
+            typeof window.SladostEffects.initCardSwap === 'function' &&
+            !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+          if (window.__reviewsCardSwapCleanup) {
+            try {
+              window.__reviewsCardSwapCleanup();
+            } catch (err) {}
+            window.__reviewsCardSwapCleanup = null;
+          }
+
+          grid.innerHTML = '';
+          if (swapRoot) swapRoot.innerHTML = '';
+
+          if (canSwap && swapRoot && swapWrap) {
+            var deck = items.slice(0, 8);
+            var cardNodes = deck.map(function (item) {
+              return createReviewNode(item, true);
+            });
+            var w = Math.min(420, Math.max(300, Math.floor((window.innerWidth || 200) * 0.9)));
+            var narrow = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+            var h = narrow ? 120 : 200;
+            window.__reviewsCardSwapCleanup = window.SladostEffects.initCardSwap(swapRoot, cardNodes, {
+              cardDistance: 100,
+              verticalDistance: 55,
+              delay: 1000,
+              pauseOnHover: false,
+              width: w,
+              height: h,
+              easing: 'elastic',
+              skewAmount: 6
+            });
+            swapWrap.hidden = false;
+            grid.hidden = true;
+            fallback.hidden = true;
+            return;
+          }
+
+          if (swapWrap) swapWrap.hidden = true;
+          items.slice(0, 24).forEach(function (item) {
+            var art = createReviewNode(item, false);
+            grid.appendChild(art);
+            observeReviewCard(art);
+          });
+          grid.hidden = false;
+          fallback.hidden = true;
+        }
+
+        fetch('reviews-tg.json', { cache: 'no-store' })
+          .then(function (r) {
+            if (!r.ok) throw new Error('no-json');
+            return r.json();
+          })
+          .catch(function () {
+            return null;
+          })
+          .then(function (data) {
+            var items = normalizeItems(data);
+            if (!items.length) {
+              items = normalizeItems(readEmbeddedReviews());
+            }
+            renderFromItems(items);
+          });
+      })();
+
+      (function protectPortfolioImages() {
+        var scope = '#works-bounce-row, #works-carousel, .hero__visual';
+        function inScope(t) {
+          return t && t.closest && t.closest(scope);
+        }
+        document.addEventListener(
+          'contextmenu',
+          function (e) {
+            var t = e.target;
+            if (!t || t.tagName !== 'IMG') return;
+            if (inScope(t)) e.preventDefault();
+          },
+          true
+        );
+        document.addEventListener(
+          'dragstart',
+          function (e) {
+            if (e.target && e.target.tagName === 'IMG' && inScope(e.target)) e.preventDefault();
+          },
+          true
+        );
+      })();
+
+
+    })();
+  </script>
+</body>
+</html>
