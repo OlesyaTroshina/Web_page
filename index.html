@@ -27,7 +27,7 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Outfit:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="style.css?v=20260521a" />
+  <link rel="stylesheet" href="style.css?v=20260521d" />
   <link rel="stylesheet" href="effects.css?v=20260517p" />
   <script type="application/ld+json">
   {
@@ -533,59 +533,46 @@
   >
     <div class="contact-modal__backdrop" tabindex="-1"></div>
     <div class="contact-modal__panel">
-      <div class="contact-modal__chrome">
-        <button type="button" class="contact-modal__close carousel-glass-btn" aria-label="Закрыть форму">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
-        </button>
-      </div>
       <div class="contact-modal__body">
-        <h2 id="contact-modal-title" class="contact-modal__title">Написать мне</h2>
-        <p class="contact-modal__lead">Оставьте телефон или почту — отвечу и предложу варианты по заказу или приложению.</p>
+        <header class="contact-modal__head">
+          <div class="contact-modal__head-copy">
+            <h2 id="contact-modal-title" class="contact-modal__title">Написать мне</h2>
+            <p class="contact-modal__lead">Телефон или почта — отвечу по заказу или приложению.</p>
+          </div>
+          <button type="button" class="contact-modal__close carousel-glass-btn" aria-label="Закрыть форму">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </header>
+        <div class="contact-modal__success" id="contact-success" hidden>
+          <p class="contact-modal__success-title">Спасибо!</p>
+          <p class="contact-modal__success-text">Заявка отправлена — свяжусь с вами в ближайшее время.</p>
+          <button type="button" class="btn btn--primary btn--3d contact-form__submit" id="contact-success-close">Закрыть</button>
+        </div>
         <form id="contact-form" class="contact-form" novalidate>
-          <label class="contact-field">
-            <span class="contact-field__label">Телефон</span>
-            <span class="contact-field__control">
-              <span class="contact-field__icon" aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <input type="text" name="_gotcha" class="contact-form__hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <div class="contact-form__row">
+            <label class="contact-field">
+              <span class="contact-field__label">Телефон</span>
+              <span class="contact-field__control">
+                <span class="contact-field__icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </span>
+                <input class="contact-field__input" type="tel" id="contact-phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="+7 918 …" />
               </span>
-              <input
-                class="contact-field__input"
-                type="tel"
-                id="contact-phone"
-                name="phone"
-                inputmode="tel"
-                autocomplete="tel"
-                placeholder="+7 918 000-00-00"
-              />
-            </span>
-          </label>
-          <label class="contact-field">
-            <span class="contact-field__label">Почта</span>
-            <span class="contact-field__control">
-              <span class="contact-field__icon" aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </label>
+            <label class="contact-field">
+              <span class="contact-field__label">Почта</span>
+              <span class="contact-field__control">
+                <span class="contact-field__icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </span>
+                <input class="contact-field__input" type="email" id="contact-email" name="email" inputmode="email" autocomplete="email" placeholder="почта@…" />
               </span>
-              <input
-                class="contact-field__input"
-                type="email"
-                id="contact-email"
-                name="email"
-                inputmode="email"
-                autocomplete="email"
-                placeholder="ваш@email.ru"
-              />
-            </span>
-          </label>
-          <p class="contact-form__hint">Укажите телефон или почту — хотя бы одно поле.</p>
+            </label>
+          </div>
           <label class="contact-field contact-field--area">
-            <span class="contact-field__label">Сообщение <span class="contact-field__optional">(необязательно)</span></span>
-            <textarea
-              class="contact-field__input contact-field__input--area"
-              id="contact-message"
-              name="message"
-              rows="3"
-              placeholder="Повод, вкус, дата…"
-            ></textarea>
+            <span class="contact-field__label">Сообщение <span class="contact-field__optional">необяз.</span></span>
+            <textarea class="contact-field__input contact-field__input--area" id="contact-message" name="message" rows="2" placeholder="Повод, вкус, дата…"></textarea>
           </label>
           <label class="contact-consent">
             <input class="contact-consent__input" type="checkbox" id="contact-consent" name="consent" required />
@@ -593,14 +580,15 @@
             <span class="contact-consent__text">Даю согласие на обработку моих персональных данных</span>
           </label>
           <p class="contact-form__error" id="contact-form-error" role="alert" hidden></p>
-          <button type="submit" class="btn btn--primary btn--3d btn--xl contact-form__submit">Отправить</button>
+          <div class="contact-form__foot">
+            <button type="submit" class="btn btn--primary btn--3d contact-form__submit">Отправить</button>
+            <div class="contact-modal__channels" aria-label="Или в мессенджерах">
+              <a href="https://wa.me/c/79189759453" class="social-btn social-btn--wa" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">WA</a>
+              <a href="https://t.me/tort23" class="social-btn social-btn--tg" target="_blank" rel="noopener noreferrer" aria-label="Telegram">TG</a>
+              <a href="https://max.ru/join/YHmbwQWQFd-fwyUWonMEdLHcv-DaVlu6CuXYyiE60S0" class="social-btn social-btn--max" target="_blank" rel="noopener noreferrer" aria-label="MAX">MAX</a>
+            </div>
+          </div>
         </form>
-        <p class="contact-modal__channels-label">Или напишите в мессенджерах</p>
-        <div class="contact-modal__channels" aria-label="Каналы связи">
-          <a href="https://wa.me/c/79189759453" class="social-btn social-btn--wa" target="_blank" rel="noopener noreferrer" aria-label="Каталог в WhatsApp">WA</a>
-          <a href="https://t.me/tort23" class="social-btn social-btn--tg" target="_blank" rel="noopener noreferrer" aria-label="Telegram: торты и зефир, Краснодар">TG</a>
-          <a href="https://max.ru/join/YHmbwQWQFd-fwyUWonMEdLHcv-DaVlu6CuXYyiE60S0" class="social-btn social-btn--max" target="_blank" rel="noopener noreferrer" aria-label="MAX: канал Сладость в радость">MAX</a>
-        </div>
       </div>
     </div>
   </div>
@@ -609,7 +597,8 @@
   <script src="vendor/three.min.js"></script>
   <script src="vendor/color-bends.js"></script>
   <script src="vendor/splash-cursor.js"></script>
-  <script src="site.js?v=20260521a"></script>
+  <script src="contact-config.js?v=20260521d"></script>
+  <script src="site.js?v=20260521e"></script>
   <!-- Дублирует works-manifest.json: нужен при открытии index.html как file:// (fetch к JSON недоступен). После правок манифеста обновите и этот блок. -->
   <script type="application/json" id="works-manifest-data">{"categories":[{"images":["assets/foto robot/Зефирные композиции/20240221_035625.jpg","assets/foto robot/Зефирные композиции/20240221_040807.jpg","assets/foto robot/Зефирные композиции/20240226_221614.jpg","assets/foto robot/Зефирные композиции/20241008_162315.jpg","assets/foto robot/Зефирные композиции/20241016_120151.jpg","assets/foto robot/Зефирные композиции/20241016_130651.jpg","assets/foto robot/Зефирные композиции/20241016_130656.jpg","assets/foto robot/Зефирные композиции/20250206_011341.jpg","assets/foto robot/Зефирные композиции/20250206_011753.jpg","assets/foto robot/Зефирные композиции/20250606_031359.jpg","assets/foto robot/Зефирные композиции/20250607_060647.jpg","assets/foto robot/Зефирные композиции/20250616_023832.jpg","assets/foto robot/Зефирные композиции/20250619_005110.jpg","assets/foto robot/Зефирные композиции/20250711_184737.jpg","assets/foto robot/Зефирные композиции/20250711_184758.jpg","assets/foto robot/Зефирные композиции/20250711_205150.jpg","assets/foto robot/Зефирные композиции/20250831_114236.jpg","assets/foto robot/Зефирные композиции/20251003_215651.jpg","assets/foto robot/Зефирные композиции/20260409_041530.jpg","assets/foto robot/Зефирные композиции/20260411_175257.jpg","assets/foto robot/Зефирные композиции/IMG_20241016_131728_341.jpg","assets/foto robot/Зефирные композиции/IMG_20250205_212526_057.jpg"],"title":"Зефирные композиции","id":"зефирные-композиции"},{"images":["assets/foto robot/Пасхальная выпечка/20250419_212825.jpg","assets/foto robot/Пасхальная выпечка/20250419_212832.jpg","assets/foto robot/Пасхальная выпечка/20250419_234724.jpg","assets/foto robot/Пасхальная выпечка/20260411_072752.jpg","assets/foto robot/Пасхальная выпечка/20260411_145743.jpg","assets/foto robot/Пасхальная выпечка/20260411_145902.jpg","assets/foto robot/Пасхальная выпечка/20260411_150141.jpg","assets/foto robot/Пасхальная выпечка/20260411_150149.jpg","assets/foto robot/Пасхальная выпечка/20260411_150159.jpg","assets/foto robot/Пасхальная выпечка/20260411_150229.jpg","assets/foto robot/Пасхальная выпечка/20260411_150315.jpg","assets/foto robot/Пасхальная выпечка/20260411_150325.jpg","assets/foto robot/Пасхальная выпечка/20260412_172532.jpg"],"title":"Пасхальная выпечка","id":"пасхальная-выпечка"},{"images":["assets/foto robot/Торты/20240104_080154.jpg","assets/foto robot/Торты/20240210_211112.jpg","assets/foto robot/Торты/20240607_084543.jpg","assets/foto robot/Торты/20240823_160941.jpg","assets/foto robot/Торты/20240901_074046.jpg","assets/foto robot/Торты/20240912_081248.jpg","assets/foto robot/Торты/20240912_081301.jpg","assets/foto robot/Торты/20241207_205317.png","assets/foto robot/Торты/20250107_050854.jpg","assets/foto robot/Торты/20250107_153045.jpg","assets/foto robot/Торты/20250521_193815.jpg","assets/foto robot/Торты/20250524_064338.jpg","assets/foto robot/Торты/20250607_041125.jpg","assets/foto robot/Торты/20251010_000735.jpg","assets/foto robot/Торты/20251213_184038.jpg","assets/foto robot/Торты/20251231_011151.jpg","assets/foto robot/Торты/20260107_172759.jpg","assets/foto robot/Торты/20260113_182453.jpg","assets/foto robot/Торты/20260113_205854.jpg","assets/foto robot/Торты/20260113_205858.jpg","assets/foto robot/Торты/IMG_20241026_223945_432.jpg"],"title":"Торты","id":"торты"}]}</script>
   <script src="effects.js?v=20260517r"></script>

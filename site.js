@@ -338,7 +338,42 @@
     document.documentElement.style.setProperty('--shell-inset-right', insetRight + 'px');
   }
 
-  var CONTACT_EMAIL = '79189759453@ya.ru';
+  var CONTACT_ERROR_TEXT = {
+    contact_required: 'Укажите телефон или почту.',
+    phone_invalid: 'Проверьте номер телефона — нужно не меньше 10 цифр.',
+    email_invalid: 'Проверьте адрес почты.',
+    consent_required: 'Нужно согласие на обработку персональных данных.',
+    not_configured:
+      'Отправка не настроена на сервере. Укажите TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID или смените provider в contact-config.js.',
+    telegram_failed: 'Не удалось отправить заявку. Попробуйте позже или напишите в мессенджер.',
+    network: 'Нет связи с сервером. Проверьте интернет или напишите в WhatsApp / Telegram.',
+    provider: 'В contact-config.js не указан способ отправки (api, web3forms или formspree).',
+    web3forms_key: 'Укажите web3formsAccessKey в contact-config.js (ключ с web3forms.com).',
+    formspree_id: 'Укажите formspreeId в contact-config.js.',
+    formsubmit_to: 'Укажите formsubmitTo в contact-config.js.',
+    formsubmit_activate:
+      'Активируйте форму: откройте письмо на 79189759453@ya.ru от FormSubmit и нажмите ссылку подтверждения, затем отправьте снова.',
+    formsubmit_file:
+      'Откройте сайт через локальный сервер или хостинг (не как файл index.html на диске) — иначе отправка недоступна.',
+    server_error: 'Ошибка сервера. Попробуйте позже.',
+    default: 'Не удалось отправить заявку. Попробуйте ещё раз.'
+  };
+
+  function getContactConfig() {
+    return global.SLADOST_CONTACT || {};
+  }
+
+  function contactErrorMessage(code) {
+    return CONTACT_ERROR_TEXT[code] || CONTACT_ERROR_TEXT.default;
+  }
+
+  var CONTACT_SUCCESS_DEFAULT = 'Заявка отправлена — свяжусь с вами в ближайшее время.';
+  var CONTACT_SUCCESS_MAILTO =
+    'Откроется ваша почта — проверьте текст письма и нажмите «Отправить», чтобы заявка ушла мне.';
+
+  function isFileProtocol() {
+    return !global.location || global.location.protocol === 'file:';
+  }
 
   function initContactModal() {
     var modal = document.getElementById('contact-modal');
@@ -348,11 +383,20 @@
     var backdrop = modal.querySelector('.contact-modal__backdrop');
     var closeBtn = modal.querySelector('.contact-modal__close');
     var errorEl = document.getElementById('contact-form-error');
+    var successEl = document.getElementById('contact-success');
+    var successCloseBtn = document.getElementById('contact-success-close');
+    var submitBtn = form.querySelector('.contact-form__submit');
     var phoneInput = document.getElementById('contact-phone');
     var emailInput = document.getElementById('contact-email');
     var messageInput = document.getElementById('contact-message');
     var consentInput = document.getElementById('contact-consent');
+    var gotchaInput = form.querySelector('[name="_gotcha"]');
+    var channelsRow = modal.querySelector('.contact-modal__channels');
+    var headEl = modal.querySelector('.contact-modal__head');
+    var successTextEl = modal.querySelector('.contact-modal__success-text');
     var lastFocus = null;
+    var sending = false;
+    var submitDefaultText = submitBtn ? submitBtn.textContent : 'Отправить';
 
     function isOpen() {
       return modal.classList.contains('contact-modal--open');
@@ -389,14 +433,38 @@
       if (list.length) global.SladostEffects.initBorderGlowNodes(list, opts);
     }
 
+    function setSuccessMessage(mode) {
+      if (!successTextEl) return;
+      successTextEl.textContent = mode === 'mailto' ? CONTACT_SUCCESS_MAILTO : CONTACT_SUCCESS_DEFAULT;
+    }
+
+    function showSuccessView(show, mode) {
+      form.hidden = !!show;
+      if (successEl) successEl.hidden = !show;
+      if (headEl) headEl.hidden = !!show;
+      modal.classList.toggle('contact-modal--success', !!show);
+      if (show) setSuccessMessage(mode || 'remote');
+      else setSuccessMessage('remote');
+    }
+
+    function setSending(state) {
+      sending = !!state;
+      if (submitBtn) {
+        submitBtn.disabled = state;
+        submitBtn.textContent = state ? 'Отправляем…' : submitDefaultText;
+      }
+    }
+
     function setOpen(open) {
       modal.classList.toggle('contact-modal--open', open);
       document.body.classList.toggle('contact-modal-lock', open);
       modal.setAttribute('aria-hidden', open ? 'false' : 'true');
       showError('');
+      showSuccessView(false);
+      setSending(false);
       if (open) {
         lastFocus = document.activeElement;
-        if (!modal.querySelector('.contact-modal__chrome .border-glow-card')) {
+        if (!modal.querySelector('.contact-modal__close.border-glow-card') && !modal.querySelector('.contact-modal__head .border-glow-card')) {
           initContactModalGlow();
         }
         var first = phoneInput || modal.querySelector('input, textarea, button');
@@ -441,57 +509,211 @@
       return digits.length >= 10;
     }
 
-    function onSubmit(e) {
-      e.preventDefault();
-      showError('');
+    function collectPayload() {
+      return {
+        phone: phoneInput ? normalizePhone(phoneInput.value.trim()) : '',
+        email: emailInput ? emailInput.value.trim() : '',
+        message: messageInput ? messageInput.value.trim() : '',
+        consent: consentInput ? consentInput.checked : false,
+        _gotcha: gotchaInput ? gotchaInput.value : ''
+      };
+    }
 
-      var phone = phoneInput ? phoneInput.value.trim() : '';
-      var email = emailInput ? emailInput.value.trim() : '';
-      var message = messageInput ? messageInput.value.trim() : '';
-      var consent = consentInput ? consentInput.checked : false;
+    function validateClient(payload) {
+      if (payload._gotcha) return 'spam';
+      if (!payload.phone && !payload.email) return 'contact_required';
+      if (payload.phone && !hasValidPhone(payload.phone)) return 'phone_invalid';
+      if (payload.email && !isValidEmail(payload.email)) return 'email_invalid';
+      if (!payload.consent) return 'consent_required';
+      return null;
+    }
 
-      if (!phone && !email) {
-        showError('Укажите телефон или почту.');
-        if (phoneInput) phoneInput.focus();
-        return;
-      }
-      if (phone && !hasValidPhone(phone)) {
-        showError('Проверьте номер телефона — нужно не меньше 10 цифр.');
-        if (phoneInput) phoneInput.focus();
-        return;
-      }
-      if (email && !isValidEmail(email)) {
-        showError('Проверьте адрес почты.');
-        if (emailInput) emailInput.focus();
-        return;
-      }
-      if (!consent) {
-        showError('Нужно согласие на обработку персональных данных.');
-        if (consentInput) consentInput.focus();
-        return;
-      }
+    function sendViaApi(payload, cfg) {
+      var url = cfg.endpoint || '/api/contact';
+      return fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(payload)
+      }).then(function (res) {
+        return res.json().catch(function () {
+          return {};
+        }).then(function (data) {
+          if (res.ok && data.ok) return { ok: true };
+          return { ok: false, error: (data && data.error) || 'server_error' };
+        });
+      });
+    }
 
+    function sendViaWeb3Forms(payload, cfg) {
+      if (!cfg.web3formsAccessKey) return Promise.resolve({ ok: false, error: 'web3forms_key' });
+      return fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: cfg.web3formsAccessKey,
+          subject: 'Заявка с сайта «Сладость в радость»',
+          from_name: 'Сайт — форма связи',
+          email: cfg.web3formsTo || '79189759453@ya.ru',
+          phone: payload.phone,
+          replyto: payload.email || undefined,
+          message:
+            (payload.phone ? 'Телефон: ' + payload.phone + '\n' : '') +
+            (payload.email ? 'Почта: ' + payload.email + '\n' : '') +
+            (payload.message ? '\n' + payload.message : '') +
+            '\n\nСогласие на обработку ПДн: да'
+        })
+      }).then(function (res) {
+        return res.json().then(function (data) {
+          if (res.ok && data.success) return { ok: true };
+          return { ok: false, error: 'server_error' };
+        });
+      });
+    }
+
+    function sendViaFormspree(payload, cfg) {
+      if (!cfg.formspreeId) return Promise.resolve({ ok: false, error: 'formspree_id' });
+      return fetch('https://formspree.io/f/' + encodeURIComponent(cfg.formspreeId), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          phone: payload.phone,
+          email: payload.email,
+          message: payload.message,
+          consent: 'yes',
+          _subject: 'Заявка с сайта'
+        })
+      }).then(function (res) {
+        if (res.ok) return { ok: true };
+        return { ok: false, error: 'server_error' };
+      });
+    }
+
+    function parseFormSubmitResponse(res, text) {
+      var data = null;
+      try {
+        data = text ? JSON.parse(text) : null;
+      } catch (e) {
+        data = null;
+      }
+      var msg = data && (data.message || data.error) ? String(data.message || data.error) : '';
+      var successVal = data && data.success;
+
+      if (msg.toLowerCase().indexOf('html file') !== -1 || msg.toLowerCase().indexOf('web server') !== -1) {
+        return { ok: false, error: 'formsubmit_file', detail: msg };
+      }
+      if (msg.toLowerCase().indexOf('activ') !== -1) {
+        return { ok: false, error: 'formsubmit_activate', detail: msg };
+      }
+      if (successVal === false || successVal === 'false') {
+        return { ok: false, error: 'server_error', detail: msg };
+      }
+      if (res.ok && (successVal === true || successVal === 'true' || (typeof successVal === 'string' && successVal.length > 2))) {
+        return { ok: true };
+      }
+      if (res.ok && !data) return { ok: true };
+      return { ok: false, error: 'server_error', detail: msg };
+    }
+
+    function sendViaMailto(payload, cfg) {
+      var to = cfg.formsubmitTo || cfg.web3formsTo || '79189759453@ya.ru';
       var lines = ['Заявка с сайта «Сладость в радость»', ''];
-      if (phone) lines.push('Телефон: ' + normalizePhone(phone));
-      if (email) lines.push('Почта: ' + email);
-      if (message) {
+      if (payload.phone) lines.push('Телефон: ' + payload.phone);
+      if (payload.email) lines.push('Почта: ' + payload.email);
+      if (payload.message) {
         lines.push('');
         lines.push('Сообщение:');
-        lines.push(message);
+        lines.push(payload.message);
       }
       lines.push('');
       lines.push('Согласие на обработку персональных данных: да');
-
-      var href =
+      global.location.href =
         'mailto:' +
-        encodeURIComponent(CONTACT_EMAIL) +
+        encodeURIComponent(to) +
         '?subject=' +
         encodeURIComponent('Заявка с сайта') +
         '&body=' +
         encodeURIComponent(lines.join('\n'));
+      return Promise.resolve({ ok: true, mode: 'mailto' });
+    }
 
-      global.location.href = href;
-      closeContactModal();
+    function sendViaFormSubmit(payload, cfg) {
+      var to = cfg.formsubmitTo || cfg.web3formsTo || '79189759453@ya.ru';
+      if (!to) return Promise.resolve({ ok: false, error: 'formsubmit_to' });
+      var textBody =
+        (payload.phone ? 'Телефон: ' + payload.phone + '\n' : '') +
+        (payload.email ? 'Почта: ' + payload.email + '\n' : '') +
+        (payload.message ? 'Сообщение: ' + payload.message + '\n' : '') +
+        'Согласие на обработку ПДн: да';
+
+      var fd = new FormData();
+      fd.append('_subject', 'Заявка с сайта');
+      fd.append('_template', 'table');
+      fd.append('_captcha', 'false');
+      fd.append('phone', payload.phone || '');
+      fd.append('email', payload.email || '');
+      fd.append('message', textBody);
+      if (payload.email) fd.append('_replyto', payload.email);
+
+      return fetch('https://formsubmit.co/ajax/' + encodeURIComponent(to), {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: fd
+      }).then(function (res) {
+        return res.text().then(function (text) {
+          return parseFormSubmitResponse(res, text);
+        });
+      });
+    }
+
+    function sendContactPayload(payload) {
+      var cfg = getContactConfig();
+      if (isFileProtocol()) return sendViaMailto(payload, cfg);
+
+      var provider = (cfg.provider || 'formsubmit').toLowerCase();
+      if (provider === 'mailto') return sendViaMailto(payload, cfg);
+      if (provider === 'web3forms') return sendViaWeb3Forms(payload, cfg);
+      if (provider === 'formspree') return sendViaFormspree(payload, cfg);
+      if (provider === 'formsubmit') {
+        return sendViaFormSubmit(payload, cfg).then(function (result) {
+          if (!result.ok && result.error === 'formsubmit_file') {
+            return sendViaMailto(payload, cfg);
+          }
+          return result;
+        });
+      }
+      return sendViaApi(payload, cfg);
+    }
+
+    function onSubmit(e) {
+      e.preventDefault();
+      if (sending) return;
+      showError('');
+
+      var payload = collectPayload();
+      var validationError = validateClient(payload);
+      if (validationError) {
+        showError(contactErrorMessage(validationError));
+        if (validationError === 'contact_required' && phoneInput) phoneInput.focus();
+        else if (validationError === 'phone_invalid' && phoneInput) phoneInput.focus();
+        else if (validationError === 'email_invalid' && emailInput) emailInput.focus();
+        else if (validationError === 'consent_required' && consentInput) consentInput.focus();
+        return;
+      }
+
+      setSending(true);
+      sendContactPayload(payload)
+        .then(function (result) {
+          setSending(false);
+          if (result.ok) {
+            showSuccessView(true, result.mode);
+            return;
+          }
+          showError(contactErrorMessage(result.error));
+        })
+        .catch(function () {
+          setSending(false);
+          showError(contactErrorMessage('network'));
+        });
     }
 
     document.querySelectorAll('[data-contact-open]').forEach(function (trigger) {
@@ -505,6 +727,9 @@
     if (backdrop) backdrop.addEventListener('click', closeContactModal);
 
     form.addEventListener('submit', onSubmit);
+    if (successCloseBtn) {
+      successCloseBtn.addEventListener('click', closeContactModal);
+    }
 
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && isOpen()) {
