@@ -739,15 +739,36 @@ html[data-theme="dark"] .works-carousel__track .border-glow-card--btn:has(.works
 }
 
 .cta__panel .border-glow-card--btn {
-  display: inline-flex;
-  max-width: 100%;
-  vertical-align: middle;
+  display: flex;
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
 }
 
 .cta__panel .border-glow-card--btn + .border-glow-card--btn,
 .cta__panel .border-glow-card--btn + .btn,
 .cta__panel .btn + .border-glow-card--btn {
   margin-top: 12px;
+}
+
+.cta__actions .border-glow-card--btn + .border-glow-card--btn,
+.cta__actions .border-glow-card--btn + .btn,
+.cta__actions .btn + .border-glow-card--btn {
+  margin-top: 0;
+}
+
+.cta__actions .border-glow-inner > .btn,
+.cta__actions .border-glow-inner > a {
+  width: 100%;
+  flex: 1 1 auto;
+  justify-content: center;
+}
+
+.cta__panel--app .border-glow-inner > .btn,
+.cta__panel--app .border-glow-inner > a {
+  width: 100%;
+  flex: 1 1 auto;
+  justify-content: center;
 }
 
 .cta__panel--app .border-glow-card--btn:first-of-type {

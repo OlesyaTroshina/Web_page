@@ -1225,6 +1225,20 @@ html[data-theme="dark"] .hero__title .title-accent {
   width: 100%;
 }
 
+.hero__actions > .border-glow-card--btn,
+.hero__actions > .btn {
+  width: 100%;
+  min-width: 0;
+  margin-top: 0;
+  display: flex;
+  justify-self: stretch;
+}
+
+.hero__actions .border-glow-inner {
+  flex: 1 1 auto;
+  width: 100%;
+}
+
 .hero__actions .btn:last-child {
   grid-column: 1 / -1;
 }
@@ -2792,8 +2806,25 @@ body.works-carousel-lock {
 .cta__actions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--layout-gap);
+  gap: 12px;
   margin-top: 4px;
+  align-items: stretch;
+}
+
+.cta__actions > * {
+  width: 100%;
+  min-width: 0;
+  margin-top: 0;
+  justify-self: stretch;
+}
+
+.cta__actions .border-glow-card--btn {
+  display: flex;
+}
+
+.cta__actions .border-glow-inner {
+  flex: 1 1 auto;
+  width: 100%;
 }
 
 .cta__actions .btn {
@@ -2841,6 +2872,13 @@ body.works-carousel-lock {
 
 .cta__panel--app .btn {
   margin-top: 12px;
+}
+
+.cta__panel--app > .btn,
+.cta__panel--app > .border-glow-card--btn {
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
 }
 
 .cta__inner {
