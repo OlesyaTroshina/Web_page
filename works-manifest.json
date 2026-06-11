@@ -25,12 +25,36 @@
           "full": "assets/web/full/Зефирные композиции/20241016_130656.webp"
         },
         {
+          "thumb": "assets/web/thumb/Зефирные композиции/IMG_20241016_131728_341.webp",
+          "full": "assets/web/full/Зефирные композиции/IMG_20241016_131728_341.webp"
+        },
+        {
+          "thumb": "assets/web/thumb/Зефирные композиции/20241121_230718.webp",
+          "full": "assets/web/full/Зефирные композиции/20241121_230718.webp"
+        },
+        {
+          "thumb": "assets/web/thumb/Зефирные композиции/20241121_230738.webp",
+          "full": "assets/web/full/Зефирные композиции/20241121_230738.webp"
+        },
+        {
+          "thumb": "assets/web/thumb/Зефирные композиции/IMG_20250205_212526_057.webp",
+          "full": "assets/web/full/Зефирные композиции/IMG_20250205_212526_057.webp"
+        },
+        {
           "thumb": "assets/web/thumb/Зефирные композиции/20250206_011341.webp",
           "full": "assets/web/full/Зефирные композиции/20250206_011341.webp"
         },
         {
           "thumb": "assets/web/thumb/Зефирные композиции/20250206_011753.webp",
           "full": "assets/web/full/Зефирные композиции/20250206_011753.webp"
+        },
+        {
+          "thumb": "assets/web/thumb/Зефирные композиции/20250307_024228.webp",
+          "full": "assets/web/full/Зефирные композиции/20250307_024228.webp"
+        },
+        {
+          "thumb": "assets/web/thumb/Зефирные композиции/20250308_093642.webp",
+          "full": "assets/web/full/Зефирные композиции/20250308_093642.webp"
         },
         {
           "thumb": "assets/web/thumb/Зефирные композиции/20250616_023832.webp",
@@ -69,12 +93,16 @@
           "full": "assets/web/full/Зефирные композиции/20260411_175257.webp"
         },
         {
-          "thumb": "assets/web/thumb/Зефирные композиции/IMG_20241016_131728_341.webp",
-          "full": "assets/web/full/Зефирные композиции/IMG_20241016_131728_341.webp"
+          "thumb": "assets/web/thumb/Зефирные композиции/1.webp",
+          "full": "assets/web/full/Зефирные композиции/1.webp"
         },
         {
-          "thumb": "assets/web/thumb/Зефирные композиции/IMG_20250205_212526_057.webp",
-          "full": "assets/web/full/Зефирные композиции/IMG_20250205_212526_057.webp"
+          "thumb": "assets/web/thumb/Зефирные композиции/2.webp",
+          "full": "assets/web/full/Зефирные композиции/2.webp"
+        },
+        {
+          "thumb": "assets/web/thumb/Зефирные композиции/3.webp",
+          "full": "assets/web/full/Зефирные композиции/3.webp"
         }
       ]
     },
@@ -169,8 +197,24 @@
           "full": "assets/web/full/Торты/20240912_081301.webp"
         },
         {
+          "thumb": "assets/web/thumb/Торты/IMG_20241026_223945_432.webp",
+          "full": "assets/web/full/Торты/IMG_20241026_223945_432.webp"
+        },
+        {
           "thumb": "assets/web/thumb/Торты/20241207_205317.webp",
           "full": "assets/web/full/Торты/20241207_205317.webp"
+        },
+        {
+          "thumb": "assets/web/thumb/Торты/20241214_191250.webp",
+          "full": "assets/web/full/Торты/20241214_191250.webp"
+        },
+        {
+          "thumb": "assets/web/thumb/Торты/20241228_111639.webp",
+          "full": "assets/web/full/Торты/20241228_111639.webp"
+        },
+        {
+          "thumb": "assets/web/thumb/Торты/20241231_224052.webp",
+          "full": "assets/web/full/Торты/20241231_224052.webp"
         },
         {
           "thumb": "assets/web/thumb/Торты/20250107_050854.webp",
@@ -179,6 +223,10 @@
         {
           "thumb": "assets/web/thumb/Торты/20250107_153045.webp",
           "full": "assets/web/full/Торты/20250107_153045.webp"
+        },
+        {
+          "thumb": "assets/web/thumb/Торты/20250131_175019.webp",
+          "full": "assets/web/full/Торты/20250131_175019.webp"
         },
         {
           "thumb": "assets/web/thumb/Торты/20250521_193815.webp",
@@ -219,12 +267,14 @@
         {
           "thumb": "assets/web/thumb/Торты/20260113_205858.webp",
           "full": "assets/web/full/Торты/20260113_205858.webp"
-        },
-        {
-          "thumb": "assets/web/thumb/Торты/IMG_20241026_223945_432.webp",
-          "full": "assets/web/full/Торты/IMG_20241026_223945_432.webp"
         }
       ]
     }
-  ]
+  ],
+  "hero": {
+    "title": "Торты",
+    "source": "assets/foto robot/Торты/20260113_205858.jpg",
+    "thumb": "assets/web/thumb/Торты/20260113_205858.webp",
+    "full": "assets/web/full/Торты/20260113_205858.webp"
+  }
 }

@@ -1,0 +1,41 @@
+name: Optimize images
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "assets/foto robot/**"
+      - "scripts/optimize-images.py"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Optimize images and rebuild manifest
+        run: python scripts/optimize-images.py
+
+      - name: Commit optimized assets
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: автообновление WebP и манифеста из foto robot"
+          file_pattern: |
+            assets/web/**
+            works-manifest.json
+            works-manifest.js

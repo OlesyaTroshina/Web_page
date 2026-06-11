@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Сжатие медиа для сайта: thumb/full WebP + hero, фон, логотип, works-manifest."""
+"""Сканирует assets/foto robot/, собирает works-manifest, WebP thumb/full, hero и прочие медиа."""
 
 from __future__ import annotations
 
@@ -27,9 +27,14 @@ LOGO_MAX = 512
 THUMB_QUALITY = 82
 FULL_QUALITY = 85
 
+IMAGE_EXT = {".jpg", ".jpeg", ".png", ".webp"}
+SKIP_DIR_NAMES = {".picasaoriginals", "__pycache__"}
+HERO_CATEGORY = "Торты"
+ABOUT_CATEGORY = "Зефирные композиции"
+ABOUT_PREFERRED = "1.jpg"
+
 
 def web_path(kind: str, source_rel: str) -> Path:
-    """kind: thumb | full; source_rel like assets/foto robot/Cat/file.jpg"""
     rel = source_rel.replace("\\", "/")
     if rel.startswith("assets/foto robot/"):
         rel = rel[len("assets/foto robot/") :]
@@ -91,8 +96,55 @@ def rel_posix(p: Path) -> str:
     return p.relative_to(ROOT).as_posix()
 
 
-def process_manifest_image(source_rel: str) -> dict | None:
-    src = ROOT / source_rel.replace("\\", "/")
+def category_id(title: str) -> str:
+    slug = title.lower().strip()
+    slug = re.sub(r"\s+", "-", slug)
+    return slug
+
+
+def image_sort_key(path: Path) -> tuple:
+    stem = path.stem
+    direct_date = re.match(r"^(\d{8})", stem)
+    if direct_date:
+        return (0, direct_date.group(1), stem)
+    embedded_date = re.search(r"(\d{8})", stem)
+    if embedded_date:
+        return (0, embedded_date.group(1), stem)
+    if stem.isdigit():
+        return (1, stem.zfill(8), stem)
+    return (2, f"{path.stat().st_mtime:.0f}", stem)
+
+
+def list_category_images(cat_dir: Path) -> list[Path]:
+    if not cat_dir.is_dir():
+        return []
+    files = [
+        f
+        for f in cat_dir.iterdir()
+        if f.is_file() and f.suffix.lower() in IMAGE_EXT and not f.name.startswith(".")
+    ]
+    return sorted(files, key=image_sort_key)
+
+
+def scan_foto_albums() -> list[tuple[str, list[Path]]]:
+    if not FOTO.is_dir():
+        print(f"foto album root missing: {FOTO}", file=sys.stderr)
+        return []
+    albums: list[tuple[str, list[Path]]] = []
+    for cat_dir in sorted(FOTO.iterdir(), key=lambda p: p.name.casefold()):
+        if not cat_dir.is_dir():
+            continue
+        if cat_dir.name.startswith(".") or cat_dir.name in SKIP_DIR_NAMES:
+            continue
+        images = list_category_images(cat_dir)
+        if images:
+            albums.append((cat_dir.name, images))
+            print(f"  {cat_dir.name}: {len(images)} photo(s)")
+    return albums
+
+
+def process_source_image(src: Path) -> dict | None:
+    source_rel = rel_posix(src)
     thumb = web_path("thumb", source_rel)
     full = web_path("full", source_rel)
     ok_t = save_webp(src, thumb, THUMB_MAX, THUMB_QUALITY)
@@ -100,6 +152,21 @@ def process_manifest_image(source_rel: str) -> dict | None:
     if not ok_t and not ok_f:
         return None
     return {"thumb": rel_posix(thumb), "full": rel_posix(full)}
+
+
+def pick_newest(paths: list[Path]) -> Path | None:
+    if not paths:
+        return None
+    return max(paths, key=image_sort_key)
+
+
+def pick_about_source(albums: list[tuple[str, list[Path]]]) -> Path | None:
+    for title, images in albums:
+        if title != ABOUT_CATEGORY:
+            continue
+        preferred = next((p for p in images if p.name.lower() == ABOUT_PREFERRED.lower()), None)
+        return preferred or images[0]
+    return None
 
 
 def write_js_global(path: Path, var_name: str, data: object) -> None:
@@ -110,40 +177,57 @@ def write_js_global(path: Path, var_name: str, data: object) -> None:
 
 
 def main() -> int:
-    if not MANIFEST_PATH.is_file():
-        print("works-manifest.json not found", file=sys.stderr)
+    print("=== Scan assets/foto robot ===")
+    albums = scan_foto_albums()
+    if not albums:
+        print("No albums found", file=sys.stderr)
         return 1
 
-    manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8-sig"))
-    new_manifest = {"categories": []}
+    manifest: dict = {"categories": []}
+    tort_images: list[Path] = []
 
-    print("=== Portfolio thumb/full ===")
-    for cat in manifest.get("categories", []):
-        new_cat = {"title": cat.get("title"), "id": cat.get("id"), "images": []}
-        for item in cat.get("images", []):
-            src_rel = item if isinstance(item, str) else item.get("full") or item.get("thumb") or ""
-            if not src_rel:
-                continue
-            entry = process_manifest_image(src_rel)
+    print("\n=== Portfolio thumb/full ===")
+    for title, sources in albums:
+        new_cat = {"title": title, "id": category_id(title), "images": []}
+        for src in sources:
+            entry = process_source_image(src)
             if entry:
                 new_cat["images"].append(entry)
         if new_cat["images"]:
-            new_manifest["categories"].append(new_cat)
+            manifest["categories"].append(new_cat)
+        if title == HERO_CATEGORY:
+            tort_images = sources
+
+    hero_src = pick_newest(tort_images)
+    if hero_src:
+        hero_entry = process_source_image(hero_src)
+        if hero_entry:
+            manifest["hero"] = {
+                "title": HERO_CATEGORY,
+                "source": rel_posix(hero_src),
+                "thumb": hero_entry["thumb"],
+                "full": hero_entry["full"],
+            }
+            print(f"\n=== Hero (newest in «{HERO_CATEGORY}»: {hero_src.name}) ===")
+            save_webp(hero_src, WEB / "hero.webp", HERO_MAX, FULL_QUALITY)
+        else:
+            print("\n=== Hero ===\n  skip: could not process newest tort photo")
+    else:
+        print(f"\n=== Hero ===\n  skip: no photos in «{HERO_CATEGORY}»")
+
+    about_src = pick_about_source(albums)
+    print("\n=== About photo ===")
+    if about_src:
+        print(f"  source: {about_src.name}")
+        save_webp(about_src, WEB / "about-zefir.webp", ABOUT_MAX, FULL_QUALITY)
+    else:
+        print("  skip: zefir album missing")
 
     MANIFEST_PATH.write_text(
-        json.dumps(new_manifest, ensure_ascii=False, indent=2) + "\n",
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
-    write_js_global(ROOT / "works-manifest.js", "SLADOST_WORKS_MANIFEST", new_manifest)
-
-    print("\n=== Hero ===")
-    hero_src = ROOT / "assets" / "foto robot" / "Торты" / "20260113_205854.jpg"
-    hero_dest = WEB / "hero.webp"
-    save_webp(hero_src, hero_dest, HERO_MAX, FULL_QUALITY)
-
-    print("\n=== About photo ===")
-    about_src = ROOT / "assets" / "foto robot" / "Зефирные композиции" / "1.jpg"
-    save_webp(about_src, WEB / "about-zefir.webp", ABOUT_MAX, FULL_QUALITY)
+    write_js_global(ROOT / "works-manifest.js", "SLADOST_WORKS_MANIFEST", manifest)
 
     print("\n=== Background ===")
     bg_src = ROOT / "assets" / "bg" / "rose-gold-texture.png"

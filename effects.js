@@ -43,15 +43,8 @@
     };
   }
 
-  function manifestImageMatches(item, fragment) {
-    var img = normalizeManifestImage(item);
-    return img.full.indexOf(fragment) !== -1 || img.thumb.indexOf(fragment) !== -1;
-  }
-
   var SLADOST_TILE_GLOW_SELECTOR =
     'main#top .app-tile, main#top .step, main#top .benefit, main#top .cta__panel, main#top .about__photo';
-
-  var HERO_CAKE_PATH = 'assets/foto robot/Торты/20260113_205854.jpg';
 
   function getRainbowGlowOpts(mobile) {
     return {
@@ -75,25 +68,25 @@
 
   function pickHeroFromManifest(data) {
     var heroWeb = 'assets/web/hero.webp';
+    if (data.hero) {
+      var hero = normalizeManifestImage(data.hero);
+      if (hero.full) {
+        return { src: hero.full, title: data.hero.title || 'Торты' };
+      }
+    }
     var cats = data.categories || [];
-    var tortCat = null;
     for (var i = 0; i < cats.length; i++) {
       var cat = cats[i];
       if (cat.id === 'торты' || /торт/i.test(cat.title || '')) {
-        tortCat = cat;
+        var imgs = cat.images || [];
+        if (imgs.length) {
+          var last = normalizeManifestImage(imgs[imgs.length - 1]);
+          return { src: last.full || heroWeb, title: cat.title || 'Торты' };
+        }
         break;
       }
     }
-    if (!tortCat || !tortCat.images || !tortCat.images.length) {
-      return { src: heroWeb, title: 'Торты' };
-    }
-    var imgs = tortCat.images;
-    for (var j = 0; j < imgs.length; j++) {
-      if (manifestImageMatches(imgs[j], '20260113_205854') || manifestImageMatches(imgs[j], '20251231_011151')) {
-        return { src: normalizeManifestImage(imgs[j]).full, title: tortCat.title };
-      }
-    }
-    return { src: normalizeManifestImage(imgs[0]).full, title: tortCat.title };
+    return { src: heroWeb, title: 'Торты' };
   }
 
   function isBorderGlowButton(el) {
