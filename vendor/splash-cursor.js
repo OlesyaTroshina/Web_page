@@ -1094,11 +1094,13 @@
   };
 })(typeof window !== 'undefined' ? window : this);
 
-/* Старт с параметрами из разметки SplashCursor (без изменения чисел) */
+/* Старт: после load, на desktop; на мобиле — без fluid-курсора */
 (function () {
   function bootSplash() {
     if (typeof window === 'undefined' || !window.SplashCursor || !window.SplashCursor.init) return;
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) return;
+    var mobile = window.matchMedia && window.matchMedia('(max-width: 1024px)').matches;
     window.SplashCursor.init({
       DENSITY_DISSIPATION: 5,
       VELOCITY_DISSIPATION: 1.5,
@@ -1109,9 +1111,18 @@
       SHADING: true,
       RAINBOW_MODE: true,
       COLOR_UPDATE_SPEED: 9.5,
-      COLOR: '#fdc0e4'
+      COLOR: '#fdc0e4',
+      DYE_RESOLUTION: mobile ? 720 : 1024,
+      SIM_RESOLUTION: mobile ? 96 : 128
     });
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bootSplash);
-  else bootSplash();
+  function scheduleSplash() {
+    if (typeof requestIdleCallback === 'function') {
+      requestIdleCallback(bootSplash, { timeout: 2500 });
+    } else {
+      setTimeout(bootSplash, 600);
+    }
+  }
+  if (document.readyState === 'complete') scheduleSplash();
+  else window.addEventListener('load', scheduleSplash, { once: true });
 })();

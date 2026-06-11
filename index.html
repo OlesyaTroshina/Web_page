@@ -1,10 +1,13 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="description" content="Сладость в радость! Олеся Трошина — торты, зефир и пасхальная выпечка в Краснодаре. Кулинарная книга — калькулятор кондитера: рецепты, пересчёт, PDF. Каталог в WhatsApp, Telegram @tort23, канал MAX." />
   <meta name="theme-color" content="#ffffff" id="meta-theme-color" />
+  <link rel="icon" href="assets/favicon.ico?v=20260523c" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png?v=20260523c" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=20260523c" />
   <title>Сладость в радость · Олеся Трошина</title>
   <script>
     (function () {
@@ -23,12 +26,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://cloud-api.yandex.net" crossorigin />
   <link rel="dns-prefetch" href="https://images.unsplash.com" />
+  <link rel="preload" as="image" type="image/webp" href="assets/web/hero.webp" fetchpriority="high" />
   <link
-    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Outfit:wght@400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,500&family=Nunito:wght@400;600;700&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="style.css?v=20260521d" />
-  <link rel="stylesheet" href="effects.css?v=20260517p" />
+  <link rel="stylesheet" href="style.css?v=20260523d" />
+  <link rel="stylesheet" href="effects.css?v=20260523d" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -62,7 +66,10 @@
   <header class="site-header">
     <div class="shell header__inner">
       <a href="#top" class="logo" aria-label="На главную — Сладость в радость">
-        <img class="logo__img" src="assets/logo-brand.png" width="120" height="200" alt="Сладость в радость — ручная работа" decoding="async" />
+        <picture>
+          <source srcset="assets/web/logo-brand.webp?v=20260523b" type="image/webp" />
+          <img class="logo__img" src="assets/logo-brand.png?v=20260523b" width="512" height="512" alt="Сладость в радость — ручная работа, сделано с любовью" decoding="async" />
+        </picture>
         <span class="logo__text">Кулинарная <em>книга</em><span class="logo__sub">домашняя кондитерская</span><span class="logo__slogan">Сладость в радость!</span></span>
       </a>
       <nav class="nav" aria-label="Основное меню">
@@ -70,7 +77,7 @@
         <a href="#about">Обо мне</a>
         <a href="#works">Работы</a>
         <a href="#process">Как работаю</a>
-        <a href="#app">Интерфейс</a>
+        <a href="#app">Книга рецептов</a>
         <a href="#faq">Вопросы</a>
         <a href="#contact">Связь</a>
         <a href="#app-spotlight" class="nav__link-app">Кулинарная книга</a>
@@ -99,18 +106,6 @@
     </div>
   </header>
 
-  <div class="packaging-corner" aria-hidden="true">
-    <img
-      class="packaging-corner__bow"
-      src="assets/bg/packaging-bow.png"
-      width="800"
-      height="800"
-      alt=""
-      decoding="async"
-      draggable="false"
-    />
-  </div>
-
   <div class="nav-backdrop" id="nav-backdrop" hidden aria-hidden="true"></div>
 
   <button type="button" class="floating-cta" data-contact-open aria-haspopup="dialog" aria-controls="contact-modal">
@@ -122,11 +117,11 @@
       <div class="shell hero__grid">
         <div class="hero__copy">
           <p class="eyebrow eyebrow--row reveal"><span>Домашняя кондитерская · Краснодар</span><span class="eyebrow__badge">Кулинарная книга</span></p>
-          <h1 class="hero__title reveal">Торты ручной работы и <span class="title-accent">цифровой калькулятор кондитера</span> в одной экосистеме</h1>
+          <h1 class="hero__title reveal">Торты ручной работы и <span class="title-accent">калькулятор кондитера</span> — в одном спокойном ритме</h1>
           <p class="hero__lead reveal">
-            Я — <strong>Олеся Трошина</strong>. Заказы веду спокойно и аккуратно, а сердце процесса — приложение
-            <strong>«Кулинарная книга — калькулятор кондитера»</strong>: книга рецептов, пересчёт на любой вес, себестоимость, база ингредиентов,
-            технологические карты и красивый PDF. Вы получаете предсказуемый вкус и понятную «математику» заказа — без хаоса в таблицах.
+            Я — <strong>Олеся Трошина</strong>. Заказы веду без суеты, а опора каждого десерта — моя
+            <strong>«Кулинарная книга»</strong>: рецепты, пересчёт на любой вес, себестоимость, база ингредиентов,
+            технологические карты и аккуратный PDF. Вы получаете предсказуемый вкус и ясность по составу и срокам — без хаоса в заметках.
           </p>
           <p class="hero__trust reveal">
             Пеку с любовью для своих родных и близких — и к вашему заказу отношусь с тем же теплом: так же бережно и по-семейному.
@@ -141,15 +136,20 @@
 
         <div class="hero__visual parallax-wrap reveal reveal--delay" data-depth="0.06">
           <div class="hero__plate parallax" data-depth-child>
-            <img
-              class="hero__photo"
-              src="assets/foto robot/Торты/20260113_205854.jpg"
-              alt="Торт ручной работы — Олеся Трошина"
-              width="900"
-              height="1100"
-              loading="eager"
-              draggable="false"
-            />
+            <picture>
+              <source srcset="assets/web/hero.webp" type="image/webp" />
+              <img
+                class="hero__photo"
+                src="assets/foto robot/Торты/20260113_205854.jpg"
+                alt="Торт ручной работы — Олеся Трошина"
+                width="900"
+                height="1100"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+                draggable="false"
+              />
+            </picture>
             <div class="hero__glow" aria-hidden="true"></div>
           </div>
 
@@ -170,7 +170,7 @@
               <li>пирожные</li>
               <li>зефир</li>
             </ul>
-            <button type="button" class="mini-btn" tabindex="-1">Открыть карточку</button>
+            <button type="button" class="mini-btn" tabindex="-1">К любимому рецепту</button>
           </div>
 
           <div class="float-card float-card--3 glass-card parallax" data-depth-child>
@@ -189,7 +189,7 @@
       <div class="shell">
         <header class="section__head reveal">
           <p class="eyebrow">Кулинарная книга — калькулятор кондитера</p>
-          <h2 class="section__title">Приложение, ради которого стоит задержаться на странице</h2>
+          <h2 class="section__title">Кулинарная книга — порядок на кухне и в заказах</h2>
           <p class="section__sub">
             Это не «ещё один блокнот», а связка <strong>рецепт → расчёт → финансы → печать</strong>. Я использую его в каждом заказе; тем же инструментом
             могут пользоваться и другие кондитеры — чтобы убрать рутину и сосредоточиться на вкусе и декоре.
@@ -228,7 +228,7 @@
           </article>
         </div>
         <div class="app-spotlight__cta reveal">
-          <a href="#app" class="btn btn--primary btn--3d">Смотреть интерфейс</a>
+          <a href="#app" class="btn btn--primary btn--3d">К книге рецептов</a>
           <a href="mailto:79189759453@ya.ru?subject=%D0%9A%D1%83%D0%BB%D0%B8%D0%BD%D0%B0%D1%80%D0%BD%D0%B0%D1%8F%20%D0%BA%D0%BD%D0%B8%D0%B3%D0%B0%20%E2%80%94%20%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81" class="btn btn--ghost btn--3d">Написать про приложение</a>
         </div>
       </div>
@@ -237,13 +237,17 @@
     <section id="about" class="section about">
       <div class="shell about__grid">
         <figure class="about__photo glass-card reveal">
-          <img
-            src="assets/foto robot/Зефирные композиции/1.jpg"
-            alt="Зефирная композиция в виде роз в корзине с атласным бантом"
-            width="800"
-            height="1000"
-            loading="lazy"
-          />
+          <picture>
+            <source srcset="assets/web/about-zefir.webp" type="image/webp" />
+            <img
+              src="assets/foto robot/Зефирные композиции/1.jpg"
+              alt="Зефирная композиция в виде роз в корзине с атласным бантом"
+              width="800"
+              height="1000"
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
           <figcaption>Зефирные розы ручной работы — нежный подарок с заботой о каждой детали</figcaption>
         </figure>
         <div class="about__text reveal">
@@ -278,7 +282,7 @@
             Нажмите на кадр или откройте полную подборку — фото открываются здесь же, без перехода на сторонние страницы.
           </p>
         </header>
-        <p id="works-status" class="works-status" role="status">Подгружаю фото…</p>
+        <p id="works-status" class="works-status works-status--hide" role="status" aria-live="polite"></p>
         <div id="works-bounce-row" class="works-stack-row" aria-label="Превью работ по категориям"></div>
         <div class="works-cta-wrap">
           <button type="button" id="works-more-btn" class="btn btn--ghost btn--3d" disabled>Посмотреть ещё работы</button>
@@ -320,19 +324,19 @@
     <section id="app" class="section app-block">
       <div class="shell app-block__inner glass-card reveal">
         <div class="app-block__copy">
-          <p class="eyebrow eyebrow--dark">Флагман страницы</p>
+          <p class="eyebrow eyebrow--dark">Мой рабочий стол</p>
           <h2 class="section__title">Кулинарная книга — калькулятор кондитера</h2>
-          <p class="app-block__tagline">Рецепты · пересчёт · себестоимость · PDF · база · техкарты — в одном окне, в стиле «Книги рецептов».</p>
+          <p class="app-block__tagline">Рецепты · пересчёт · себестоимость · PDF · база · техкарты — всё под рукой, как в живой студии.</p>
           <p class="lead">
-            Я открыто показываю интерфейс: это и моя реклама качества, и приглашение коллегам попробовать тот же подход.
-            Если вы кондитер или студия — напишите, обсудим, как «Кулинарная книга» может лечь в основу ваших процессов.
+            Это то, чем я пользуюсь каждый день: от первой идеи торта до печати техкарты.
+            Если вы кондитер или студия — напишите, расскажу, как такой порядок может лечь в основу ваших процессов.
           </p>
           <ul class="checklist checklist--dense">
             <li><strong>Книга рецептов</strong> с поиском, весами и фото — порядок вместо хаоса в чатах и скриншотах;</li>
-            <li><strong>Автопересчёт</strong> на любой вес, форму и число порций без ручных таблиц;</li>
+            <li><strong>Пересчёт</strong> на любой вес, форму и число порций без ручных таблиц;</li>
             <li><strong>Себестоимость</strong> и прозрачность по ингредиентам — удобно и вам, и мне при согласовании заказа;</li>
             <li><strong>Технологические карты</strong> и пошаговая логика — меньше ошибок на кухне;</li>
-            <li><strong>База продуктов и материалов</strong> — единая точка правды для закупок;</li>
+            <li><strong>База продуктов и материалов</strong> — все цены и закупки в одном месте;</li>
             <li><strong>Импорт из Excel</strong> — если вы уже вели учёт в таблицах;</li>
             <li><strong>PDF и оформление</strong> — красивый документ для печати и для клиента.</li>
           </ul>
@@ -342,7 +346,7 @@
           </div>
         </div>
         <div class="app-block__mock">
-          <figure class="app-window" role="group" aria-label="Скриншот приложения">
+          <figure class="app-window" role="group" aria-label="Книга рецептов">
             <div class="app-window__chrome" aria-hidden="true">
               <span class="app-window__dot"></span>
               <span class="app-window__dot"></span>
@@ -354,7 +358,7 @@
                 <source media="(min-width: 960px)" srcset="assets/app-kniga-ui-wide.png" />
                 <img
                   src="assets/app-kniga-ui.png"
-                  alt="Интерфейс «Книга рецептов»: поиск, карточки десертов, кнопки действий, база ингредиентов и финансы"
+                  alt="Книга рецептов — поиск, карточки десертов, база ингредиентов и финансы"
                   width="1400"
                   height="900"
                   loading="lazy"
@@ -363,7 +367,6 @@
               </picture>
             </div>
           </figure>
-          <p class="app-block__hint">Реальный интерфейс «Книги рецептов»: тёплый розовый фон, стеклянные панели, сдержанные золотые действия и предпросмотр PDF — та же логика цвета, что и на лендинге.</p>
         </div>
       </div>
     </section>
@@ -392,11 +395,11 @@
             <div id="reviews-swap-wrap" class="reviews__swap-wrap" hidden>
               <div id="reviews-swap-root"></div>
             </div>
-            <div id="reviews-grid" class="reviews__grid" aria-label="Реальные отзывы гостей" hidden></div>
+            <div id="reviews-grid" class="reviews__grid" aria-label="Отзывы гостей" hidden></div>
             <article id="reviews-fallback" class="reviews__fallback glass-card reveal">
               <div class="reviews__fallback-inner">
-                <p class="reviews__fallback-kicker">Канал</p>
-                <h3 class="reviews__fallback-title">@tort23 — торты, зефир, Краснодар</h3>
+                <p class="reviews__fallback-kicker">Ещё истории</p>
+                <h3 class="reviews__fallback-title">Торты, зефир, Краснодар — в Telegram</h3>
                 <div class="reviews__fallback-actions">
                   <a href="https://t.me/tort23" class="btn btn--primary btn--3d" target="_blank" rel="noopener noreferrer">Открыть @tort23</a>
                   <a href="https://wa.me/c/79189759453" class="btn btn--ghost btn--3d" target="_blank" rel="noopener noreferrer">Каталог в WhatsApp</a>
@@ -405,12 +408,8 @@
             </article>
           </div>
           <header class="section__head section__head--reviews reveal">
-            <h2 class="section__title">Реальные отзывы</h2>
-            <p class="section__sub section__sub--muted reviews__dek" title="Отзывы подгружаются из Telegram при доступе к сети">@tort23 ТГ канала
-              
-            </p>
-
-            <p class="reviews__hint">Авто-смена.</p>
+            <h2 class="section__title">Словами гостей</h2>
+            <p class="section__sub section__sub--muted reviews__dek">Тёплые слова после праздников — от тех, кто уже попробовал.</p>
           </header>
         </div>
       </div>
@@ -454,7 +453,7 @@
           </details>
           <details class="faq__item glass-card reveal">
             <summary>Я кондитер — могу ли я использовать то же приложение?</summary>
-            <p>Напишите на почту с темой «Кулинарная книга» — расскажу, как устроен мой рабочий процесс и что даёт калькулятор в ежедневной практике. Технически это HTML-приложение «Книга рецептов» с расширенным функционалом под кондитерскую студию.</p>
+            <p>Напишите на почту с темой «Кулинарная книга» — расскажу, как устроен мой рабочий процесс и что даёт калькулятор в ежедневной практике: рецепты, пересчёт, себестоимость и печать техкарт — всё в одной «Книге рецептов».</p>
           </details>
         </div>
       </div>
@@ -475,8 +474,8 @@
         <div class="cta__panel cta__panel--app">
           <p class="eyebrow eyebrow--dark">Кулинарная книга</p>
           <h2 class="cta__title">Узнать больше про приложение</h2>
-          <p class="cta__text">Интерфейс, пересчёт, PDF и база — в блоке выше. Если вы мастер или студия и хотите такой же порядок в рецептах, напишите.</p>
-          <a href="#app" class="btn btn--accent btn--3d btn--xl">К демо интерфейса</a>
+          <p class="cta__text">Рецепты, пересчёт, PDF и база — в блоке выше. Если вы мастер или студия и хотите такой же порядок, напишите.</p>
+          <a href="#app" class="btn btn--accent btn--3d btn--xl">Узнать о книге рецептов</a>
           <a href="mailto:79189759453@ya.ru?subject=%D0%9A%D1%83%D0%BB%D0%B8%D0%BD%D0%B0%D1%80%D0%BD%D0%B0%D1%8F%20%D0%BA%D0%BD%D0%B8%D0%B3%D0%B0" class="btn btn--ghost btn--3d btn--xl">Письмо про приложение</a>
         </div>
       </div>
@@ -490,7 +489,10 @@
       <div class="footer__main">
         <div class="footer__brand">
           <a href="#top" class="logo logo--footer" aria-label="На главную">
-            <img class="logo__img" src="assets/logo-brand.png" width="120" height="200" alt="" loading="lazy" decoding="async" />
+            <picture>
+              <source srcset="assets/web/logo-brand.webp?v=20260523b" type="image/webp" />
+              <img class="logo__img" src="assets/logo-brand.png?v=20260523b" width="512" height="512" alt="Сладость в радость" loading="lazy" decoding="async" />
+            </picture>
             <span class="logo__text">Кулинарная <em>книга</em><span class="logo__sub">домашняя кондитерская</span><span class="logo__slogan">Сладость в радость!</span></span>
           </a>
           <p class="footer__tagline"><strong>Сладость в радость!</strong> · Кулинарная книга · Олеся Трошина · Краснодар</p>
@@ -520,6 +522,11 @@
         <a href="https://max.ru/join/YHmbwQWQFd-fwyUWonMEdLHcv-DaVlu6CuXYyiE60S0" class="social-btn social-btn--max" target="_blank" rel="noopener noreferrer" aria-label="MAX: канал Сладость в радость">MAX</a>
       </div>
     </div>
+    <p class="footer__legal">
+      <a href="privacy.html">Политика конфиденциальности</a>
+      · <a href="offer.html">Пользовательское соглашение</a>
+      · <a href="consent-pd.html">Согласие на обработку ПДн</a>
+    </p>
     <p class="footer__copy">© <span id="year"></span> · Олеся Трошина · Все права защищены</p>
   </footer>
 
@@ -577,7 +584,12 @@
           <label class="contact-consent">
             <input class="contact-consent__input" type="checkbox" id="contact-consent" name="consent" required />
             <span class="contact-consent__box" aria-hidden="true"></span>
-            <span class="contact-consent__text">Даю согласие на обработку моих персональных данных</span>
+            <span class="contact-consent__text">
+              Я даю
+              <a href="consent-pd.html" target="_blank" rel="noopener noreferrer">согласие на обработку персональных данных</a>
+              и ознакомлен(а) с
+              <a href="privacy.html" target="_blank" rel="noopener noreferrer">Политикой конфиденциальности</a>.
+            </span>
           </label>
           <p class="contact-form__error" id="contact-form-error" role="alert" hidden></p>
           <div class="contact-form__foot">
@@ -593,262 +605,36 @@
     </div>
   </div>
 
-  <script src="vendor/gsap.min.js"></script>
-  <script src="vendor/three.min.js"></script>
-  <script src="vendor/color-bends.js"></script>
-  <script src="vendor/splash-cursor.js"></script>
-  <script src="contact-config.js?v=20260521d"></script>
-  <script src="site.js?v=20260521e"></script>
-  <!-- Дублирует works-manifest.json: нужен при открытии index.html как file:// (fetch к JSON недоступен). После правок манифеста обновите и этот блок. -->
-  <script type="application/json" id="works-manifest-data">{"categories":[{"images":["assets/foto robot/Зефирные композиции/20240221_035625.jpg","assets/foto robot/Зефирные композиции/20240221_040807.jpg","assets/foto robot/Зефирные композиции/20240226_221614.jpg","assets/foto robot/Зефирные композиции/20241008_162315.jpg","assets/foto robot/Зефирные композиции/20241016_120151.jpg","assets/foto robot/Зефирные композиции/20241016_130651.jpg","assets/foto robot/Зефирные композиции/20241016_130656.jpg","assets/foto robot/Зефирные композиции/20250206_011341.jpg","assets/foto robot/Зефирные композиции/20250206_011753.jpg","assets/foto robot/Зефирные композиции/20250606_031359.jpg","assets/foto robot/Зефирные композиции/20250607_060647.jpg","assets/foto robot/Зефирные композиции/20250616_023832.jpg","assets/foto robot/Зефирные композиции/20250619_005110.jpg","assets/foto robot/Зефирные композиции/20250711_184737.jpg","assets/foto robot/Зефирные композиции/20250711_184758.jpg","assets/foto robot/Зефирные композиции/20250711_205150.jpg","assets/foto robot/Зефирные композиции/20250831_114236.jpg","assets/foto robot/Зефирные композиции/20251003_215651.jpg","assets/foto robot/Зефирные композиции/20260409_041530.jpg","assets/foto robot/Зефирные композиции/20260411_175257.jpg","assets/foto robot/Зефирные композиции/IMG_20241016_131728_341.jpg","assets/foto robot/Зефирные композиции/IMG_20250205_212526_057.jpg"],"title":"Зефирные композиции","id":"зефирные-композиции"},{"images":["assets/foto robot/Пасхальная выпечка/20250419_212825.jpg","assets/foto robot/Пасхальная выпечка/20250419_212832.jpg","assets/foto robot/Пасхальная выпечка/20250419_234724.jpg","assets/foto robot/Пасхальная выпечка/20260411_072752.jpg","assets/foto robot/Пасхальная выпечка/20260411_145743.jpg","assets/foto robot/Пасхальная выпечка/20260411_145902.jpg","assets/foto robot/Пасхальная выпечка/20260411_150141.jpg","assets/foto robot/Пасхальная выпечка/20260411_150149.jpg","assets/foto robot/Пасхальная выпечка/20260411_150159.jpg","assets/foto robot/Пасхальная выпечка/20260411_150229.jpg","assets/foto robot/Пасхальная выпечка/20260411_150315.jpg","assets/foto robot/Пасхальная выпечка/20260411_150325.jpg","assets/foto robot/Пасхальная выпечка/20260412_172532.jpg"],"title":"Пасхальная выпечка","id":"пасхальная-выпечка"},{"images":["assets/foto robot/Торты/20240104_080154.jpg","assets/foto robot/Торты/20240210_211112.jpg","assets/foto robot/Торты/20240607_084543.jpg","assets/foto robot/Торты/20240823_160941.jpg","assets/foto robot/Торты/20240901_074046.jpg","assets/foto robot/Торты/20240912_081248.jpg","assets/foto robot/Торты/20240912_081301.jpg","assets/foto robot/Торты/20241207_205317.png","assets/foto robot/Торты/20250107_050854.jpg","assets/foto robot/Торты/20250107_153045.jpg","assets/foto robot/Торты/20250521_193815.jpg","assets/foto robot/Торты/20250524_064338.jpg","assets/foto robot/Торты/20250607_041125.jpg","assets/foto robot/Торты/20251010_000735.jpg","assets/foto robot/Торты/20251213_184038.jpg","assets/foto robot/Торты/20251231_011151.jpg","assets/foto robot/Торты/20260107_172759.jpg","assets/foto robot/Торты/20260113_182453.jpg","assets/foto robot/Торты/20260113_205854.jpg","assets/foto robot/Торты/20260113_205858.jpg","assets/foto robot/Торты/IMG_20241026_223945_432.jpg"],"title":"Торты","id":"торты"}]}</script>
-  <script src="effects.js?v=20260517r"></script>
-  <script type="application/json" id="reviews-tg-data">
-{"_readme":"Цитаты с канала @tort23. post — только ссылка на конкретный пост (…/tort23/123). На сайте показываются первые 24 записи.","items":[{"name":"Гостья","text":"Этот тортик заказывала для своего сыночка. Превзошел все ожидания. Кондитер выполнил все мои хотелки. Тортик сочный, сладкий, крем нежный и весь тортик хорошо пропитан. Олеся спасибо тебе большое!!!","stars":5},{"name":"Гостья","text":"Слов нет кра сот. И. Вкусняшка на картинке это одно вкус не передать","stars":5},{"name":"Гостья","text":"Вкуснее не пробовала. Лично проверено. 😋😋😋","stars":5},{"name":"Гостья","text":"Вкусняшка как всегда 👍👍👍👍👍👍","stars":5},{"name":"Гостья","text":"Мне и то и это...это самый вкусный зефир в моей жищни","stars":5},{"name":"Гостья","text":"Торт очень вкусный и красивый. Олесинька испекла мне на день рождения все гости были в восторге .а корзинку я ем сама зефирные пионы с клубничкой внутри","stars":5},{"name":"Гостья","text":"Олесечка, какая же ты умница , целую твой золотые ручки💋👍🔥","stars":5},{"name":"Гостья","text":"Вот это котик, просто прелесть необыкновенная 👍💋","stars":5},{"name":"Гостья","text":"Твои. Торты как в той сказке только царю на стол ❤️","stars":5},{"name":"Гостья","text":"Вот это шедевр ❤️‍🔥❤️‍🔥❤️‍🔥","stars":5},{"name":"Гостья","text":"Сама оригинальность и красота, а внутри вкуснятина, элегантный с мягким и воздушным кремом. Просто класс. ❤️","stars":5},{"name":"Гостья","text":"очень вкусный, нежный, вмеру сладкий","stars":5},{"name":"Гостья","text":"Заказали торт на день рождения сына. И я была в восторге от него. Вкусный, сочный. Теперь только у нее буду заказывать тортики. Спасибо Олеся за вкусный и красивый торт 😘","stars":5},{"name":"Гостья","text":"Очень вкусный торт, нежный, в меру сладкий и внутри есть карамелизированные орешки, бисквит обалденный. Больше всего детям нравится крем: нежный и тает во рту, хочется после первого кусочка, еще второй и третий и так торт все съели. Спасибо большое за такое вкусное творчество.","stars":5},{"name":"Гостья","text":"Очень красивые розы, 🌹🌹🌹. Букет супер!","stars":5},{"name":"Гостья","text":"Если бы не этот торт,праздник не был бы таким атмосферным❤️❤️❤️","stars":5},{"name":"Гостья","text":"Очень вкусный тортик, спасибо большое мы съели всей семьей 💕😻","stars":5},{"name":"Гостья","text":"Отзыв по заказу, сравнили с натуральными розами ❤️🥰","stars":5}]}
-  </script>
-  <script>
-    (function () {
-      document.getElementById('year').textContent = new Date().getFullYear();
+  <aside
+    id="cookie-banner"
+    class="cookie-banner"
+    role="dialog"
+    aria-live="polite"
+    aria-label="Уведомление о cookie"
+    aria-hidden="true"
+  >
+    <p class="cookie-banner__title">Мы используем cookie</p>
+    <p class="cookie-banner__text">
+      Сайт сохраняет технические cookie и данные в localStorage (настройки, ваш выбор по cookie), чтобы работать корректно.
+      Подробнее — в
+      <a href="privacy.html">Политике конфиденциальности</a>.
+    </p>
+    <div class="cookie-banner__actions">
+      <button type="button" class="btn btn--primary btn--3d" id="cookie-banner-accept">Принять</button>
+      <button type="button" class="btn btn--ghost btn--3d" id="cookie-banner-necessary">Только необходимые</button>
+    </div>
+  </aside>
 
-      var canParallax =
-        window.matchMedia &&
-        window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
-        window.matchMedia('(max-width: 1024px)').matches === false;
-      if (canParallax) {
-        document.querySelectorAll('.parallax-wrap').forEach(function (wrap) {
-          var strength = parseFloat(wrap.getAttribute('data-depth')) || 0.08;
-          wrap.addEventListener('mousemove', function (e) {
-            var r = wrap.getBoundingClientRect();
-            var x = (e.clientX - r.left) / r.width - 0.5;
-            var y = (e.clientY - r.top) / r.height - 0.5;
-            wrap.querySelectorAll('[data-depth-child]').forEach(function (el, i) {
-              var m = (i + 1) * strength * 18;
-              el.style.transform = 'translate(' + (-x * m) + 'px,' + (-y * m) + 'px)';
-            });
-          });
-          wrap.addEventListener('mouseleave', function () {
-            wrap.querySelectorAll('[data-depth-child]').forEach(function (el) {
-              el.style.transform = '';
-            });
-          });
-        });
-      } else {
-        document.querySelectorAll('.parallax-wrap [data-depth-child]').forEach(function (el) {
-          el.style.transform = '';
-        });
-      }
-
-      function resetMobileViewport() {
-        if (window.scrollX !== 0) window.scrollTo(0, window.scrollY || 0);
-        document.documentElement.style.setProperty('--vw', document.documentElement.clientWidth * 0.01 + 'px');
-      }
-      resetMobileViewport();
-      window.addEventListener('orientationchange', function () {
-        setTimeout(resetMobileViewport, 100);
-      });
-      window.addEventListener('resize', resetMobileViewport);
-
-      var observer = new IntersectionObserver(
-        function (entries) {
-          entries.forEach(function (en) {
-            if (en.isIntersecting) {
-              en.target.classList.add('visible');
-              requestAnimationFrame(function () {
-                requestAnimationFrame(function () {
-                  if (window.SladostEffects && window.SladostEffects.boltBorderGlowForReveal) {
-                    window.SladostEffects.boltBorderGlowForReveal(en.target);
-                  }
-                });
-              });
-              observer.unobserve(en.target);
-            }
-          });
-        },
-        { threshold: 0.08, rootMargin: '0px 0px -6% 0px' }
-      );
-      document.querySelectorAll('.reveal').forEach(function (el) {
-        observer.observe(el);
-      });
-
-      (function loadTgReviews() {
-        var grid = document.getElementById('reviews-grid');
-        var fallback = document.getElementById('reviews-fallback');
-        if (!grid || !fallback) return;
-
-        function starsRow(n) {
-          var m = parseInt(n, 10);
-          if (isNaN(m)) m = 5;
-          m = Math.max(1, Math.min(5, m));
-          var s = '';
-          for (var i = 0; i < 5; i++) s += i < m ? '★' : '☆';
-          return s;
-        }
-
-        function observeReviewCard(el) {
-          observer.observe(el);
-        }
-
-        function parseReviewsData(raw) {
-          try {
-            return typeof raw === 'string' ? JSON.parse(raw) : raw;
-          } catch (e) {
-            return null;
-          }
-        }
-
-        function readEmbeddedReviews() {
-          var el = document.getElementById('reviews-tg-data');
-          if (!el || !el.textContent) return null;
-          return parseReviewsData(el.textContent.trim());
-        }
-
-        function normalizeItems(data) {
-          if (!data || !Array.isArray(data.items)) return [];
-          return data.items.filter(function (it) {
-            return it && String(it.text || '').trim().length > 0;
-          });
-        }
-
-        function createReviewNode(item, forSwap) {
-          var name = String(item.name || 'Гость').trim() || 'Гость';
-          var letter = name.charAt(0).toUpperCase();
-          var outer = document.createElement(forSwap ? 'div' : 'article');
-          outer.className = forSwap ? 'review review--swap' : 'review glass-card reveal';
-          var top = document.createElement('div');
-          top.className = 'review__top';
-          var av = document.createElement('div');
-          av.className = 'review__avatar review__avatar--initial';
-          av.setAttribute('aria-hidden', 'true');
-          av.textContent = letter;
-          var meta = document.createElement('div');
-          var pName = document.createElement('p');
-          pName.className = 'review__name';
-          pName.textContent = name;
-          var pStars = document.createElement('p');
-          pStars.className = 'review__stars';
-          var sn = parseInt(item.stars, 10);
-          if (isNaN(sn)) sn = 5;
-          pStars.setAttribute('aria-label', sn + ' из 5');
-          pStars.textContent = starsRow(item.stars);
-          meta.appendChild(pName);
-          meta.appendChild(pStars);
-          top.appendChild(av);
-          top.appendChild(meta);
-          var pText = document.createElement('p');
-          pText.className = 'review__text';
-          pText.textContent = String(item.text).trim();
-          outer.appendChild(top);
-          outer.appendChild(pText);
-          if (item.post && /t\.me\/[^/]+\/\d+/i.test(String(item.post).trim())) {
-            var src = document.createElement('p');
-            src.className = 'review__source';
-            var a = document.createElement('a');
-            a.href = String(item.post).trim();
-            a.target = '_blank';
-            a.rel = 'noopener noreferrer';
-            a.textContent = 'Пост в канале →';
-            src.appendChild(a);
-            outer.appendChild(src);
-          }
-          return outer;
-        }
-
-        function renderFromItems(items) {
-          if (!items.length) return;
-          var swapRoot = document.getElementById('reviews-swap-root');
-          var swapWrap = document.getElementById('reviews-swap-wrap');
-          var canSwap =
-            items.length >= 2 &&
-            window.gsap &&
-            window.SladostEffects &&
-            typeof window.SladostEffects.initCardSwap === 'function' &&
-            !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-          if (window.__reviewsCardSwapCleanup) {
-            try {
-              window.__reviewsCardSwapCleanup();
-            } catch (err) {}
-            window.__reviewsCardSwapCleanup = null;
-          }
-
-          grid.innerHTML = '';
-          if (swapRoot) swapRoot.innerHTML = '';
-
-          if (canSwap && swapRoot && swapWrap) {
-            var deck = items.slice(0, 8);
-            var cardNodes = deck.map(function (item) {
-              return createReviewNode(item, true);
-            });
-            var w = Math.min(420, Math.max(300, Math.floor((window.innerWidth || 200) * 0.9)));
-            var narrow = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
-            var h = narrow ? 120 : 200;
-            window.__reviewsCardSwapCleanup = window.SladostEffects.initCardSwap(swapRoot, cardNodes, {
-              cardDistance: 100,
-              verticalDistance: 55,
-              delay: 1000,
-              pauseOnHover: false,
-              width: w,
-              height: h,
-              easing: 'elastic',
-              skewAmount: 6
-            });
-            swapWrap.hidden = false;
-            grid.hidden = true;
-            fallback.hidden = true;
-            return;
-          }
-
-          if (swapWrap) swapWrap.hidden = true;
-          items.slice(0, 24).forEach(function (item) {
-            var art = createReviewNode(item, false);
-            grid.appendChild(art);
-            observeReviewCard(art);
-          });
-          grid.hidden = false;
-          fallback.hidden = true;
-        }
-
-        fetch('reviews-tg.json', { cache: 'no-store' })
-          .then(function (r) {
-            if (!r.ok) throw new Error('no-json');
-            return r.json();
-          })
-          .catch(function () {
-            return null;
-          })
-          .then(function (data) {
-            var items = normalizeItems(data);
-            if (!items.length) {
-              items = normalizeItems(readEmbeddedReviews());
-            }
-            renderFromItems(items);
-          });
-      })();
-
-      (function protectPortfolioImages() {
-        var scope = '#works-bounce-row, #works-carousel, .hero__visual';
-        function inScope(t) {
-          return t && t.closest && t.closest(scope);
-        }
-        document.addEventListener(
-          'contextmenu',
-          function (e) {
-            var t = e.target;
-            if (!t || t.tagName !== 'IMG') return;
-            if (inScope(t)) e.preventDefault();
-          },
-          true
-        );
-        document.addEventListener(
-          'dragstart',
-          function (e) {
-            if (e.target && e.target.tagName === 'IMG' && inScope(e.target)) e.preventDefault();
-          },
-          true
-        );
-      })();
-
-
-    })();
-  </script>
+  <script src="vendor/gsap.min.js" defer></script>
+  <script src="vendor/three.min.js" defer></script>
+  <script src="vendor/color-bends.js" defer></script>
+  <script src="vendor/splash-cursor.js" defer></script>
+  <script src="contact-config.js?v=20260521d" defer></script>
+  <script src="works-manifest.js?v=20260523a" defer></script>
+  <script src="reviews-tg.js?v=20260523a" defer></script>
+  <script src="site.js?v=20260523d" defer></script>
+  <script src="effects.js?v=20260523d" defer></script>
+  <script src="cookie-banner.js?v=20260523d" defer></script>
+  <script src="site-boot.js?v=20260523d" defer></script>
 </body>
 </html>

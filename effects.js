@@ -34,6 +34,20 @@
 
   var __sladostBorderGlowOpts = null;
 
+  function normalizeManifestImage(item) {
+    if (!item) return { thumb: '', full: '' };
+    if (typeof item === 'string') return { thumb: item, full: item };
+    return {
+      thumb: item.thumb || item.full || '',
+      full: item.full || item.thumb || ''
+    };
+  }
+
+  function manifestImageMatches(item, fragment) {
+    var img = normalizeManifestImage(item);
+    return img.full.indexOf(fragment) !== -1 || img.thumb.indexOf(fragment) !== -1;
+  }
+
   var SLADOST_TILE_GLOW_SELECTOR =
     'main#top .app-tile, main#top .step, main#top .benefit, main#top .cta__panel, main#top .about__photo';
 
@@ -44,7 +58,7 @@
       starSpeed: '4s',
       glowSpeed: '4s',
       backgroundColor: 'transparent',
-      borderRadius: mobile ? 16 : 28,
+      borderRadius: mobile ? 18 : 22,
       kind: 'btn',
     };
   }
@@ -54,12 +68,13 @@
       starSpeed: '5s',
       glowSpeed: '5s',
       backgroundColor: 'transparent',
-      borderRadius: 28,
+      borderRadius: 32,
       kind: 'tile'
     };
   }
 
   function pickHeroFromManifest(data) {
+    var heroWeb = 'assets/web/hero.webp';
     var cats = data.categories || [];
     var tortCat = null;
     for (var i = 0; i < cats.length; i++) {
@@ -69,14 +84,16 @@
         break;
       }
     }
-    if (!tortCat || !tortCat.images || !tortCat.images.length) return null;
+    if (!tortCat || !tortCat.images || !tortCat.images.length) {
+      return { src: heroWeb, title: 'Торты' };
+    }
     var imgs = tortCat.images;
     for (var j = 0; j < imgs.length; j++) {
-      if (imgs[j].indexOf('20260113_205854') !== -1 || imgs[j].indexOf('20251231_011151') !== -1) {
-        return { src: imgs[j], title: tortCat.title };
+      if (manifestImageMatches(imgs[j], '20260113_205854') || manifestImageMatches(imgs[j], '20251231_011151')) {
+        return { src: normalizeManifestImage(imgs[j]).full, title: tortCat.title };
       }
     }
-    return { src: imgs[0], title: tortCat.title };
+    return { src: normalizeManifestImage(imgs[0]).full, title: tortCat.title };
   }
 
   function isBorderGlowButton(el) {
@@ -109,7 +126,7 @@
   }
 
   function pickBorderGlowLayout(el, mobile, options) {
-    var d = options.borderRadius != null ? options.borderRadius : mobile ? 16 : 28;
+    var d = options.borderRadius != null ? options.borderRadius : mobile ? 18 : 22;
     var c = el.classList;
     if (c.contains('carousel-glass-btn') || c.contains('works-carousel__close')) {
       d = 999;
@@ -118,13 +135,13 @@
     } else if (c.contains('social-btn')) {
       d = 999;
     } else if (c.contains('theme-toggle')) {
-      d = 14;
+      d = 20;
     } else if (c.contains('burger')) {
-      d = 14;
+      d = 20;
     } else if (c.contains('mini-btn')) {
-      d = 12;
+      d = 14;
     } else if (c.contains('floating-cta')) {
-      d = mobile ? 16 : 18;
+      d = mobile ? 20 : 24;
     } else if (c.contains('works-carousel__thumb')) {
       d = 10;
     } else if (el.closest && el.closest('.footer')) {
@@ -662,7 +679,7 @@
   }
 
   /* ——— Photo stack (аналог motion Stack для секции «Работы») ——— */
-  var WORKS_STACK_DEPTH = 4;
+  var WORKS_STACK_DEPTH = 3;
   var WORKS_STACK_AUTOPLAY_MS = 3000;
   var WORKS_STACK_DRAG_SENS = 200;
   var WORKS_STACK_POOL_MS = 3 * 60 * 1000;
@@ -836,6 +853,9 @@
 
   /* ——— Works from manifest ——— */
   function parseWorksManifestFromDom() {
+    if (global.SLADOST_WORKS_MANIFEST && global.SLADOST_WORKS_MANIFEST.categories) {
+      return global.SLADOST_WORKS_MANIFEST;
+    }
     var el = document.getElementById('works-manifest-data');
     if (!el || !el.textContent) return null;
     try {
@@ -847,7 +867,7 @@
 
   function loadWorksManifest(manifestUrl) {
     var url = manifestUrl || 'works-manifest.json';
-    return fetch(url, { cache: 'no-store' })
+    return fetch(url)
       .then(function (r) {
         if (!r.ok) throw new Error('manifest');
         return r.json();
@@ -880,8 +900,15 @@
         var allSlides = [];
 
         (data.categories || []).forEach(function (cat) {
-          (cat.images || []).forEach(function (src) {
-            allSlides.push({ url: src, title: cat.title, sub: 'ручная работа' });
+          (cat.images || []).forEach(function (item) {
+            var img = normalizeManifestImage(item);
+            if (!img.full) return;
+            allSlides.push({
+              url: img.full,
+              thumb: img.thumb || img.full,
+              title: cat.title,
+              sub: 'ручная работа'
+            });
           });
         });
 
@@ -890,7 +917,11 @@
         var enableHover = global.matchMedia('(hover: hover)').matches;
 
         cats.forEach(function (cat) {
-          var pool = cat.images || [];
+          var pool = (cat.images || [])
+            .map(normalizeManifestImage)
+            .filter(function (img) {
+              return img.thumb;
+            });
           var col = document.createElement('div');
           col.className = 'works-stack-col reveal';
           var h = document.createElement('h3');
@@ -917,7 +948,7 @@
           var k;
           var d = Math.min(depth || WORKS_STACK_DEPTH, pn);
           for (k = 0; k < d; k++) {
-            out.push(pool[(offset + k) % pn]);
+            out.push(pool[(offset + k) % pn].thumb);
           }
           return out;
         }
@@ -950,7 +981,7 @@
                 if (typeof onOpenCarousel !== 'function') return;
                 var start = 0;
                 for (var si = 0; si < allSlides.length; si++) {
-                  if (allSlides[si].url === src) {
+                  if (allSlides[si].url === src || allSlides[si].thumb === src) {
                     start = si;
                     break;
                   }
@@ -1010,7 +1041,8 @@
       .catch(function () {
         if (statusEl) {
           statusEl.textContent =
-            'Не удалось загрузить список фото. Проверьте works-manifest.json и блок #works-manifest-data в index.html.';
+            'Галерея временно недоступна. Обновите страницу или напишите мне — пришлю подборку работ.';
+          statusEl.classList.remove('works-status--hide');
           statusEl.classList.add('works-status--error');
         }
       });
@@ -1058,15 +1090,23 @@
         console.warn('[Сладость в радость] GSAP не загружен — CardSwap, стек «Работы» и BounceCards отключены. Проверьте vendor/gsap.min.js.');
       }
     }
-    if (typeof global.__bootWorksBounce === 'function') {
+    if (typeof global.scheduleWorksLazyBoot === 'function') {
+      try {
+        global.scheduleWorksLazyBoot();
+      } catch (e) {
+        if (typeof console !== 'undefined' && console.error) console.error(e);
+      }
+    } else if (typeof global.__bootWorksBounce === 'function') {
       try {
         global.__bootWorksBounce();
       } catch (e) {
         if (typeof console !== 'undefined' && console.error) console.error(e);
       }
     }
+    var desktopFx = !global.matchMedia || !global.matchMedia('(max-width: 768px)').matches;
     try {
       if (
+        desktopFx &&
         global.SladostColorBends &&
         global.SladostColorBends.init &&
         global.THREE &&

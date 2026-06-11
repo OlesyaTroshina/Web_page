@@ -147,7 +147,7 @@
       tb.setAttribute('aria-label', 'Кадр ' + (i + 1));
       tb.setAttribute('aria-current', i === worksCarousel.index ? 'true' : 'false');
       var im = document.createElement('img');
-      im.src = s.url;
+      im.src = s.thumb || s.url;
       im.alt = '';
       im.loading = 'lazy';
       im.draggable = false;
@@ -212,11 +212,43 @@
     buildCarouselDom();
     global.addEventListener('load', initWorksCarouselGlow, { once: true });
     global.__bootWorksBounce = function () {
+      if (global.__worksBounceBooted) return;
+      global.__worksBounceBooted = true;
       if (!global.SladostEffects || !global.SladostEffects.initWorksBounce) return;
       global.SladostEffects.initWorksBounce('works-manifest.json', function (startIndex, slides) {
         worksCarousel.slides = slides;
         openWorksCarousel(startIndex);
       });
+    };
+
+    global.scheduleWorksLazyBoot = function () {
+      if (global.__worksLazyScheduled) return;
+      global.__worksLazyScheduled = true;
+      var section = document.getElementById('works');
+      if (!section) {
+        global.__bootWorksBounce();
+        return;
+      }
+      function run() {
+        global.__bootWorksBounce();
+      }
+      if (!('IntersectionObserver' in global)) {
+        run();
+        return;
+      }
+      var io = new IntersectionObserver(
+        function (entries) {
+          for (var i = 0; i < entries.length; i++) {
+            if (entries[i].isIntersecting) {
+              run();
+              io.disconnect();
+              return;
+            }
+          }
+        },
+        { rootMargin: '240px 0px', threshold: 0.01 }
+      );
+      io.observe(section);
     };
   }
 
@@ -318,31 +350,12 @@
     }
   }
 
-  function syncPackagingBowAnchor() {
-    var header = document.querySelector('.site-header');
-    if (header) {
-      document.documentElement.style.setProperty(
-        '--header-edge',
-        header.getBoundingClientRect().bottom + 'px'
-      );
-    }
-
-    var shell =
-      document.querySelector('.site-header .header__inner') ||
-      document.querySelector('.hero .shell') ||
-      document.querySelector('.shell');
-    if (!shell) return;
-
-    var shellRect = shell.getBoundingClientRect();
-    var insetRight = Math.max(0, document.documentElement.clientWidth - shellRect.right);
-    document.documentElement.style.setProperty('--shell-inset-right', insetRight + 'px');
-  }
-
   var CONTACT_ERROR_TEXT = {
     contact_required: 'Укажите телефон или почту.',
     phone_invalid: 'Проверьте номер телефона — нужно не меньше 10 цифр.',
     email_invalid: 'Проверьте адрес почты.',
-    consent_required: 'Нужно согласие на обработку персональных данных.',
+    consent_required:
+      'Отметьте согласие на обработку персональных данных и ознакомьтесь с Политикой конфиденциальности.',
     not_configured:
       'Отправка не настроена на сервере. Укажите TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID или смените provider в contact-config.js.',
     telegram_failed: 'Не удалось отправить заявку. Попробуйте позже или напишите в мессенджер.',
@@ -354,7 +367,7 @@
     formsubmit_activate:
       'Активируйте форму: откройте письмо на 79189759453@ya.ru от FormSubmit и нажмите ссылку подтверждения, затем отправьте снова.',
     formsubmit_file:
-      'Откройте сайт через локальный сервер или хостинг (не как файл index.html на диске) — иначе отправка недоступна.',
+      'Сейчас удобнее написать в WhatsApp, Telegram или на почту — ответлю лично.',
     server_error: 'Ошибка сервера. Попробуйте позже.',
     default: 'Не удалось отправить заявку. Попробуйте ещё раз.'
   };
@@ -391,6 +404,11 @@
     var messageInput = document.getElementById('contact-message');
     var consentInput = document.getElementById('contact-consent');
     var gotchaInput = form.querySelector('[name="_gotcha"]');
+    form.querySelectorAll('.contact-consent__text a').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+    });
     var channelsRow = modal.querySelector('.contact-modal__channels');
     var headEl = modal.querySelector('.contact-modal__head');
     var successTextEl = modal.querySelector('.contact-modal__success-text');
@@ -743,7 +761,6 @@
     function apply() {
       var w = document.documentElement.clientWidth;
       document.documentElement.style.setProperty('--vw', w * 0.01 + 'px');
-      syncPackagingBowAnchor();
       if (window.scrollX !== 0) {
         window.scrollTo(0, window.scrollY || 0);
       }
@@ -755,7 +772,6 @@
     }
     apply();
     global.addEventListener('resize', apply);
-    global.addEventListener('scroll', syncPackagingBowAnchor, { passive: true });
     global.addEventListener('orientationchange', function () {
       setTimeout(apply, 120);
     });
@@ -770,18 +786,6 @@
     initThemeToggle();
     initMobileNav();
     initViewportFit();
-    syncPackagingBowAnchor();
-    requestAnimationFrame(syncPackagingBowAnchor);
-    requestAnimationFrame(function () {
-      requestAnimationFrame(syncPackagingBowAnchor);
-    });
-    if (typeof ResizeObserver !== 'undefined') {
-      var ro = new ResizeObserver(syncPackagingBowAnchor);
-      var header = document.querySelector('.site-header');
-      var shell = document.querySelector('.site-header .header__inner');
-      if (header) ro.observe(header);
-      if (shell) ro.observe(shell);
-    }
   }
 
   if (document.readyState === 'loading') {
