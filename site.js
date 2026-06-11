@@ -388,6 +388,280 @@
     return !global.location || global.location.protocol === 'file:';
   }
 
+  var pdConsentGate = {
+    inputs: [],
+    submitBtn: null,
+    gatedLinks: [],
+    gatedButtons: [],
+    sending: false,
+    onBlocked: null
+  };
+
+  function shouldGateContactHref(href) {
+    if (!href || href === '#') return false;
+    return (
+      /^tel:/i.test(href) ||
+      /^mailto:/i.test(href) ||
+      /wa\.me/i.test(href) ||
+      /t\.me\//i.test(href) ||
+      /max\.ru/i.test(href)
+    );
+  }
+
+  function isLegalConsentDocLink(link) {
+    var href = link.getAttribute('href') || '';
+    return /consent-pd\.html|privacy\.html|offer\.html/i.test(href);
+  }
+
+  function ensurePdHrefStored(link) {
+    if (!link || link.dataset.pdHref) return;
+    var backup = link.getAttribute('data-contact-href');
+    if (backup) {
+      link.dataset.pdHref = backup;
+      return;
+    }
+    var href = link.getAttribute('href');
+    if (href && href !== '#') link.dataset.pdHref = href;
+  }
+
+  function findPdGatedWrap(el) {
+    return el && el.closest ? el.closest('.border-glow-card--btn') : null;
+  }
+
+  function refreshPdGatedTargets() {
+    var links = [];
+    var seen = [];
+    function addLink(el) {
+      if (!el || seen.indexOf(el) !== -1) return;
+      seen.push(el);
+      ensurePdHrefStored(el);
+      links.push(el);
+    }
+    document
+      .querySelectorAll('main#top a[href], .contact-modal a[href], .footer__aside a[href]')
+      .forEach(function (a) {
+        if (a.closest('.contact-consent__text') && isLegalConsentDocLink(a)) return;
+        var href = a.getAttribute('href') || '';
+        if (shouldGateContactHref(href) || (a.dataset.pdHref && shouldGateContactHref(a.dataset.pdHref))) {
+          addLink(a);
+        }
+      });
+    pdConsentGate.gatedLinks = links;
+
+    var buttons = [];
+    document.querySelectorAll('[data-contact-open]').forEach(function (btn) {
+      buttons.push(btn);
+    });
+    pdConsentGate.gatedButtons = buttons;
+  }
+
+  function isPdGatedContactControl(el) {
+    if (!el) return false;
+    return el.classList.contains('is-pd-gated') || el.getAttribute('aria-disabled') === 'true';
+  }
+
+  function findPdGatedClickTarget(el) {
+    if (!el || !el.closest) return null;
+    var direct = el.closest('a.is-pd-gated, [data-contact-open]');
+    if (direct && (direct.hasAttribute('data-contact-open') || isPdGatedContactControl(direct))) {
+      return direct;
+    }
+    var wrap = el.closest('.border-glow-card--btn, .floating-dock');
+    if (wrap) {
+      var inner = wrap.querySelector('[data-contact-open], a.is-pd-gated');
+      if (inner && (inner.hasAttribute('data-contact-open') || isPdGatedContactControl(inner))) {
+        return inner;
+      }
+    }
+    return null;
+  }
+
+  function ensurePdConsentToast() {
+    var toast = document.getElementById('pd-consent-toast');
+    if (toast) return toast;
+    toast = document.createElement('aside');
+    toast.id = 'pd-consent-toast';
+    toast.className = 'pd-consent-toast';
+    toast.setAttribute('role', 'status');
+    toast.setAttribute('aria-live', 'polite');
+    toast.hidden = true;
+    toast.innerHTML =
+      '<p class="pd-consent-toast__title">Нужно согласие на обработку данных</p>' +
+      '<p class="pd-consent-toast__text">По требованию закона о персональных данных (152-ФЗ) перед звонком, письмом или сообщением в мессенджер отметьте галочку в подвале страницы — прокрутили вниз.</p>';
+    document.body.appendChild(toast);
+    return toast;
+  }
+
+  function showPdConsentPrompt(contextEl) {
+    var toast = ensurePdConsentToast();
+    toast.hidden = false;
+    toast.classList.add('pd-consent-toast--visible');
+    if (showPdConsentPrompt._hideTimer) clearTimeout(showPdConsentPrompt._hideTimer);
+    showPdConsentPrompt._hideTimer = setTimeout(function () {
+      toast.classList.remove('pd-consent-toast--visible');
+      setTimeout(function () {
+        toast.hidden = true;
+      }, 320);
+    }, 9000);
+
+    if (contextEl && contextEl.closest) {
+      if (contextEl.closest('.contact-modal')) {
+        var modalConsent = document.getElementById('contact-consent');
+        if (modalConsent) {
+          modalConsent.focus();
+          return;
+        }
+      }
+    }
+
+    var footerAside = document.querySelector('.footer__aside');
+    var footerConsent = document.getElementById('footer-pd-consent');
+    var footerLabel = footerConsent ? footerConsent.closest('.footer-pd-consent') : null;
+    if (footerAside && footerAside.scrollIntoView) {
+      footerAside.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    if (footerLabel) {
+      footerLabel.classList.remove('footer-pd-consent--pulse');
+      void footerLabel.offsetWidth;
+      footerLabel.classList.add('footer-pd-consent--pulse');
+      if (showPdConsentPrompt._pulseTimer) clearTimeout(showPdConsentPrompt._pulseTimer);
+      showPdConsentPrompt._pulseTimer = setTimeout(function () {
+        footerLabel.classList.remove('footer-pd-consent--pulse');
+      }, 5200);
+    }
+    if (footerConsent) {
+      setTimeout(function () {
+        try {
+          footerConsent.focus({ preventScroll: true });
+        } catch (e) {
+          footerConsent.focus();
+        }
+      }, 420);
+    }
+  }
+
+  function isPdConsentGiven() {
+    for (var i = 0; i < pdConsentGate.inputs.length; i++) {
+      if (pdConsentGate.inputs[i] && pdConsentGate.inputs[i].checked) return true;
+    }
+    return false;
+  }
+
+  function syncPdConsentInputs(source) {
+    if (!source) return;
+    var checked = !!source.checked;
+    for (var i = 0; i < pdConsentGate.inputs.length; i++) {
+      var inp = pdConsentGate.inputs[i];
+      if (inp && inp !== source) inp.checked = checked;
+    }
+  }
+
+  function setPdGatedLink(link, gated) {
+    if (!link) return;
+    ensurePdHrefStored(link);
+    var wrap = findPdGatedWrap(link);
+    if (gated) {
+      link.setAttribute('href', '#');
+      link.setAttribute('aria-disabled', 'true');
+      link.classList.add('is-pd-gated');
+      link.setAttribute('tabindex', '-1');
+      if (wrap) wrap.classList.add('is-pd-gated');
+    } else {
+      var restore = link.dataset.pdHref || link.getAttribute('data-contact-href') || '';
+      if (restore) link.setAttribute('href', restore);
+      link.removeAttribute('aria-disabled');
+      link.classList.remove('is-pd-gated');
+      link.removeAttribute('tabindex');
+      if (wrap) wrap.classList.remove('is-pd-gated');
+    }
+  }
+
+  function setPdGatedButton(btn, gated) {
+    if (!btn) return;
+    var wrap = findPdGatedWrap(btn);
+    var keepClickable = btn.hasAttribute('data-contact-open');
+    if (gated) {
+      btn.classList.add('is-pd-gated');
+      btn.setAttribute('aria-disabled', 'true');
+      if (btn.tagName === 'BUTTON' && !keepClickable) btn.disabled = true;
+      if (wrap) wrap.classList.add('is-pd-gated');
+    } else {
+      btn.classList.remove('is-pd-gated');
+      btn.removeAttribute('aria-disabled');
+      if (btn.tagName === 'BUTTON') btn.disabled = false;
+      if (wrap) wrap.classList.remove('is-pd-gated');
+    }
+  }
+
+  function syncAllPdGatedWraps(allowed) {
+    document.querySelectorAll('.border-glow-card--btn, .floating-dock').forEach(function (wrap) {
+      var innerGated = wrap.querySelector(
+        'a.is-pd-gated, [data-contact-open].is-pd-gated, [data-contact-open][aria-disabled="true"], button.is-pd-gated'
+      );
+      if (!allowed && innerGated) wrap.classList.add('is-pd-gated');
+      else wrap.classList.remove('is-pd-gated');
+    });
+  }
+
+  function updatePdConsentGate() {
+    var allowed = isPdConsentGiven();
+    refreshPdGatedTargets();
+    if (pdConsentGate.submitBtn) {
+      pdConsentGate.submitBtn.disabled = !allowed || pdConsentGate.sending;
+    }
+    for (var i = 0; i < pdConsentGate.gatedLinks.length; i++) {
+      setPdGatedLink(pdConsentGate.gatedLinks[i], !allowed);
+    }
+    for (var j = 0; j < pdConsentGate.gatedButtons.length; j++) {
+      setPdGatedButton(pdConsentGate.gatedButtons[j], !allowed);
+    }
+    syncAllPdGatedWraps(allowed);
+  }
+
+  function initPdConsentGate(options) {
+    options = options || {};
+    pdConsentGate.submitBtn = options.submitBtn || null;
+    pdConsentGate.onBlocked = options.onBlocked || null;
+    pdConsentGate.inputs = [];
+    ['contact-consent', 'footer-pd-consent'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) pdConsentGate.inputs.push(el);
+    });
+
+    refreshPdGatedTargets();
+
+    pdConsentGate.inputs.forEach(function (inp) {
+      inp.addEventListener('change', function () {
+        syncPdConsentInputs(inp);
+        updatePdConsentGate();
+      });
+    });
+
+    document.addEventListener(
+      'click',
+      function (e) {
+        if (isPdConsentGiven()) return;
+        var target = findPdGatedClickTarget(e.target);
+        if (!target) return;
+        e.preventDefault();
+        e.stopPropagation();
+        if (typeof pdConsentGate.onBlocked === 'function') {
+          pdConsentGate.onBlocked(target);
+        } else {
+          showPdConsentPrompt(target);
+        }
+      },
+      true
+    );
+
+    updatePdConsentGate();
+  }
+
+  function setPdConsentSending(state) {
+    pdConsentGate.sending = !!state;
+    updatePdConsentGate();
+  }
+
   function initContactModal() {
     var modal = document.getElementById('contact-modal');
     var form = document.getElementById('contact-form');
@@ -449,6 +723,7 @@
         if (!nodes[i].closest('.border-glow-card')) list.push(nodes[i]);
       }
       if (list.length) global.SladostEffects.initBorderGlowNodes(list, opts);
+      updatePdConsentGate();
     }
 
     function setSuccessMessage(mode) {
@@ -467,8 +742,8 @@
 
     function setSending(state) {
       sending = !!state;
+      setPdConsentSending(state);
       if (submitBtn) {
-        submitBtn.disabled = state;
         submitBtn.textContent = state ? 'Отправляем…' : submitDefaultText;
       }
     }
@@ -480,6 +755,7 @@
       showError('');
       showSuccessView(false);
       setSending(false);
+      updatePdConsentGate();
       if (open) {
         lastFocus = document.activeElement;
         if (!modal.querySelector('.contact-modal__close.border-glow-card') && !modal.querySelector('.contact-modal__head .border-glow-card')) {
@@ -734,12 +1010,17 @@
         });
     }
 
-    document.querySelectorAll('[data-contact-open]').forEach(function (trigger) {
-      trigger.addEventListener('click', function (e) {
+    document.addEventListener(
+      'click',
+      function (e) {
+        if (!isPdConsentGiven() || e.defaultPrevented) return;
+        var trigger = e.target.closest ? e.target.closest('[data-contact-open]:not(.is-pd-gated)') : null;
+        if (!trigger || trigger.getAttribute('aria-disabled') === 'true') return;
         e.preventDefault();
         openContactModal();
-      });
-    });
+      },
+      false
+    );
 
     if (closeBtn) closeBtn.addEventListener('click', closeContactModal);
     if (backdrop) backdrop.addEventListener('click', closeContactModal);
@@ -783,10 +1064,37 @@
   function boot() {
     bootWorksGallery();
     initContactModal();
+    initPdConsentGate({
+      submitBtn: document.querySelector('#contact-form .contact-form__submit'),
+      onBlocked: function (contextEl) {
+        var modal = document.getElementById('contact-modal');
+        var errorEl = document.getElementById('contact-form-error');
+        if (modal && modal.classList.contains('contact-modal--open') && errorEl) {
+          errorEl.textContent = contactErrorMessage('consent_required');
+          errorEl.hidden = false;
+        }
+        showPdConsentPrompt(contextEl);
+      }
+    });
+    document.querySelectorAll('.footer-pd-consent .contact-consent__text a').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+    });
     initThemeToggle();
     initMobileNav();
     initViewportFit();
+    global.addEventListener('load', function () {
+      refreshPdGatedTargets();
+      updatePdConsentGate();
+    });
   }
+
+  global.SladostSite = global.SladostSite || {};
+  global.SladostSite.refreshPdConsentGate = function () {
+    refreshPdGatedTargets();
+    updatePdConsentGate();
+  };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', boot);

@@ -484,9 +484,25 @@
   -webkit-backdrop-filter: none !important;
 }
 
+.border-glow-surface--matte > li.step {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.border-glow-surface--matte > li.step > .step__badge {
+  display: inline-flex;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  align-self: flex-start;
+}
+
 .border-glow-card--btn .border-glow-inner > .btn,
 .border-glow-card--btn .border-glow-inner > .floating-cta,
-.border-glow-card--btn .border-glow-inner > a {
+.border-glow-card--btn .border-glow-inner > a:not(.social-btn) {
   position: relative;
   z-index: 1;
   border: none;
@@ -509,6 +525,45 @@
   background: transparent;
   box-shadow: none;
   isolation: auto;
+}
+
+/* Соцкнопки WA / TG / MAX — строго круг, не растягивать как CTA */
+.footer__social .border-glow-card--btn,
+.contact-modal__channels .border-glow-card--btn:has(.social-btn) {
+  display: inline-flex;
+  flex: 0 0 auto;
+  width: auto;
+  height: auto;
+  vertical-align: middle;
+}
+
+.footer__social .border-glow-card--btn .border-glow-inner,
+.contact-modal__channels .border-glow-card--btn:has(.social-btn) .border-glow-inner {
+  width: auto;
+  min-height: 0;
+  height: auto;
+  margin: var(--rim-size);
+}
+
+.footer__social .border-glow-card--btn .border-glow-surface--lens,
+.contact-modal__channels .border-glow-card--btn:has(.social-btn) .border-glow-surface--lens {
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.footer__social .border-glow-inner > .social-btn,
+.contact-modal__channels .border-glow-inner > .social-btn {
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+  min-height: 46px;
+  flex: 0 0 46px;
+  align-self: center;
 }
 
 .border-glow-card--btn .border-glow-inner > .btn::before,
@@ -661,9 +716,11 @@ html[data-theme="dark"] .border-glow-card--btn:hover .border-glow-surface--lens 
     0 6px 18px rgba(91, 78, 229, 0.3) !important;
 }
 
-/* Галерея: розовое матовое стекло, блики, радужный кант */
+/* Галерея и окно помощника: розовое стекло, блики, радужный кант */
 .works-carousel .border-glow-card--btn:has(.carousel-glass-btn) .border-glow-surface--lens,
-.works-carousel__track .border-glow-card--btn:has(.works-carousel__thumb) .border-glow-surface--lens {
+.works-carousel__track .border-glow-card--btn:has(.works-carousel__thumb) .border-glow-surface--lens,
+.oc-ai-modal .border-glow-card--btn:has(.carousel-glass-btn) .border-glow-surface--lens,
+.oc-ai-modal .oc-ai-actions .border-glow-card--btn .border-glow-surface--lens {
   background: rgba(255, 236, 242, 0.12) !important;
   backdrop-filter: blur(14px) brightness(1.16) contrast(1.05) saturate(1.28) !important;
   -webkit-backdrop-filter: blur(14px) brightness(1.16) contrast(1.05) saturate(1.28) !important;
@@ -676,7 +733,9 @@ html[data-theme="dark"] .border-glow-card--btn:hover .border-glow-surface--lens 
 }
 
 .works-carousel .border-glow-card--btn:has(.carousel-glass-btn) .border-glow-surface--lens::before,
-.works-carousel__track .border-glow-card--btn:has(.works-carousel__thumb) .border-glow-surface--lens::before {
+.works-carousel__track .border-glow-card--btn:has(.works-carousel__thumb) .border-glow-surface--lens::before,
+.oc-ai-modal .border-glow-card--btn:has(.carousel-glass-btn) .border-glow-surface--lens::before,
+.oc-ai-modal .oc-ai-actions .border-glow-card--btn .border-glow-surface--lens::before {
   background: radial-gradient(
     ellipse 92% 78% at 50% -6%,
     rgba(255, 255, 255, 0.96) 0%,
@@ -687,7 +746,9 @@ html[data-theme="dark"] .border-glow-card--btn:hover .border-glow-surface--lens 
 }
 
 .works-carousel .border-glow-card--btn:has(.carousel-glass-btn) .border-glow-surface--lens::after,
-.works-carousel__track .border-glow-card--btn:has(.works-carousel__thumb) .border-glow-surface--lens::after {
+.works-carousel__track .border-glow-card--btn:has(.works-carousel__thumb) .border-glow-surface--lens::after,
+.oc-ai-modal .border-glow-card--btn:has(.carousel-glass-btn) .border-glow-surface--lens::after,
+.oc-ai-modal .oc-ai-actions .border-glow-card--btn .border-glow-surface--lens::after {
   background:
     radial-gradient(ellipse 82% 30% at 50% 100%, rgba(255, 188, 205, 0.42) 0%, transparent 68%),
     radial-gradient(ellipse 100% 88% at 50% 52%, transparent 44%, rgba(212, 95, 118, 0.09) 100%);
@@ -695,7 +756,9 @@ html[data-theme="dark"] .border-glow-card--btn:hover .border-glow-surface--lens 
 }
 
 .works-carousel .border-glow-card--btn:has(.carousel-glass-btn):hover .border-glow-surface--lens,
-.works-carousel__track .border-glow-card--btn:has(.works-carousel__thumb):hover .border-glow-surface--lens {
+.works-carousel__track .border-glow-card--btn:has(.works-carousel__thumb):hover .border-glow-surface--lens,
+.oc-ai-modal .border-glow-card--btn:has(.carousel-glass-btn):hover .border-glow-surface--lens,
+.oc-ai-modal .oc-ai-actions .border-glow-card--btn:hover .border-glow-surface--lens {
   background: rgba(255, 238, 244, 0.18) !important;
   backdrop-filter: blur(16px) brightness(1.2) contrast(1.06) saturate(1.34) !important;
   -webkit-backdrop-filter: blur(16px) brightness(1.2) contrast(1.06) saturate(1.34) !important;
@@ -708,7 +771,9 @@ html[data-theme="dark"] .border-glow-card--btn:hover .border-glow-surface--lens 
 }
 
 .works-carousel .border-glow-card--btn:has(.carousel-glass-btn):hover .border-glow-surface--lens::before,
-.works-carousel__track .border-glow-card--btn:has(.works-carousel__thumb):hover .border-glow-surface--lens::before {
+.works-carousel__track .border-glow-card--btn:has(.works-carousel__thumb):hover .border-glow-surface--lens::before,
+.oc-ai-modal .border-glow-card--btn:has(.carousel-glass-btn):hover .border-glow-surface--lens::before,
+.oc-ai-modal .oc-ai-actions .border-glow-card--btn:hover .border-glow-surface--lens::before {
   background: radial-gradient(
     ellipse 94% 80% at 50% -8%,
     rgba(255, 255, 255, 1) 0%,
@@ -781,8 +846,7 @@ html[data-theme="dark"] .works-carousel__track .border-glow-card--btn:has(.works
   margin-top: 8px;
 }
 
-.border-glow-card.border-glow-card--floating,
-.border-glow-card:has(.floating-cta) {
+.border-glow-card.border-glow-card--floating {
   position: fixed;
   z-index: 99;
   right: max(16px, env(safe-area-inset-right, 0px));
@@ -791,6 +855,43 @@ html[data-theme="dark"] .works-carousel__track .border-glow-card--btn:has(.works
   top: auto;
   margin: 0;
   transform: none !important;
+}
+
+.floating-dock {
+  position: fixed;
+  z-index: 99;
+  left: max(12px, env(safe-area-inset-left, 0px));
+  right: max(12px, env(safe-area-inset-right, 0px));
+  bottom: max(12px, env(safe-area-inset-bottom, 0px));
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.floating-dock > .border-glow-card--dock {
+  position: relative;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: calc(50% - 6px);
+  margin: 0;
+  transform: none !important;
+  pointer-events: auto;
+}
+
+.floating-dock .floating-cta {
+  max-width: 100%;
+}
+
+.floating-dock .floating-cta__text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.floating-cta__label--short {
+  display: none;
 }
 
 .border-glow-card--floating .border-glow-inner,
@@ -812,6 +913,109 @@ html[data-theme="dark"] .works-carousel__track .border-glow-card--btn:has(.works
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   box-shadow: none;
+}
+
+/* Помощник: тот же глянец, что у CTA, с лёгким розовым оттенком (без blur и без матовой заливки) */
+.border-glow-card--floating-assistant {
+  left: max(16px, env(safe-area-inset-left, 0px));
+  right: auto;
+}
+
+.border-glow-card--assistant-tint .border-glow-surface--lens,
+.border-glow-card--floating-assistant .border-glow-surface--lens {
+  background: rgba(255, 228, 234, 0.04) !important;
+  backdrop-filter: brightness(1.12) contrast(1.06) saturate(1.22) !important;
+  -webkit-backdrop-filter: brightness(1.12) contrast(1.06) saturate(1.22) !important;
+  box-shadow:
+    inset 0 2px 5px rgba(255, 255, 255, 0.62),
+    inset 0 -4px 10px rgba(122, 36, 56, 0.07),
+    inset 0 0 0 1px rgba(255, 220, 228, 0.34),
+    0 3px 12px rgba(212, 95, 118, 0.1) !important;
+}
+
+.border-glow-card--assistant-tint .border-glow-surface--lens::before,
+.border-glow-card--floating-assistant .border-glow-surface--lens::before {
+  background: radial-gradient(
+    ellipse 88% 72% at 50% 0%,
+    rgba(255, 255, 255, 0.84) 0%,
+    rgba(255, 220, 230, 0.36) 32%,
+    rgba(255, 200, 214, 0.1) 54%,
+    transparent 72%
+  );
+}
+
+.border-glow-card--assistant-tint .border-glow-surface--lens::after,
+.border-glow-card--floating-assistant .border-glow-surface--lens::after {
+  background:
+    radial-gradient(ellipse 75% 28% at 50% 100%, rgba(255, 200, 214, 0.22) 0%, transparent 65%),
+    radial-gradient(ellipse 95% 80% at 50% 55%, transparent 50%, rgba(122, 36, 56, 0.05) 100%);
+  mix-blend-mode: soft-light;
+}
+
+.border-glow-card--assistant-tint:hover .border-glow-surface--lens,
+.border-glow-card--floating-assistant:hover .border-glow-surface--lens {
+  background: rgba(255, 228, 234, 0.05) !important;
+  backdrop-filter: brightness(1.16) contrast(1.08) saturate(1.28) !important;
+  -webkit-backdrop-filter: brightness(1.16) contrast(1.08) saturate(1.28) !important;
+  box-shadow:
+    inset 0 3px 6px rgba(255, 255, 255, 0.72),
+    inset 0 -4px 10px rgba(122, 36, 56, 0.08),
+    inset 0 0 0 1px rgba(255, 225, 232, 0.42),
+    0 5px 16px rgba(212, 95, 118, 0.14) !important;
+}
+
+.border-glow-card--assistant-tint:hover .border-glow-surface--lens::before,
+.border-glow-card--floating-assistant:hover .border-glow-surface--lens::before {
+  background: radial-gradient(
+    ellipse 90% 74% at 50% 0%,
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(255, 225, 232, 0.4) 34%,
+    transparent 74%
+  );
+}
+
+.border-glow-card--assistant-tint .border-glow-inner > .floating-cta,
+.border-glow-card--floating-assistant .border-glow-inner > .floating-cta,
+.floating-dock .border-glow-card--assistant-tint .border-glow-inner > .floating-cta {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+
+.border-glow-card--assistant-tint .floating-cta,
+.border-glow-card--floating-assistant .floating-cta,
+.border-glow-card--assistant-tint .floating-cta__text,
+.border-glow-card--floating-assistant .floating-cta__text {
+  color: var(--cocoa);
+  font-weight: 700;
+}
+
+html[data-theme="dark"] .border-glow-card--assistant-tint .border-glow-surface--lens,
+html[data-theme="dark"] .border-glow-card--floating-assistant .border-glow-surface--lens {
+  background: rgba(255, 200, 214, 0.03) !important;
+  backdrop-filter: brightness(1.14) contrast(1.07) saturate(1.18) !important;
+  -webkit-backdrop-filter: brightness(1.14) contrast(1.07) saturate(1.18) !important;
+  box-shadow:
+    inset 0 2px 5px rgba(255, 255, 255, 0.28),
+    inset 0 -4px 10px rgba(0, 0, 0, 0.22),
+    inset 0 0 0 1px rgba(255, 180, 198, 0.2),
+    0 3px 14px rgba(0, 0, 0, 0.28) !important;
+}
+
+html[data-theme="dark"] .border-glow-card--assistant-tint .border-glow-surface--lens::before,
+html[data-theme="dark"] .border-glow-card--floating-assistant .border-glow-surface--lens::before {
+  background: radial-gradient(
+    ellipse 88% 72% at 50% 0%,
+    rgba(255, 240, 246, 0.52) 0%,
+    rgba(232, 120, 144, 0.14) 34%,
+    transparent 72%
+  );
+}
+
+html[data-theme="dark"] .border-glow-card--assistant-tint .floating-cta,
+html[data-theme="dark"] .border-glow-card--floating-assistant .floating-cta {
+  color: var(--cocoa);
 }
 
 /* Секция «Работы»: три колонки + стек фото (GSAP) */
@@ -986,7 +1190,7 @@ html[data-theme="dark"] .works-carousel__track .border-glow-card--btn:has(.works
   }
 
   .cards-grid .border-glow-inner,
-  .steps .border-glow-inner {
+  .steps .border-glow-card--tile > .border-glow-inner {
     width: calc(100% - var(--rim-size) * 2);
     max-width: 100%;
     box-sizing: border-box;

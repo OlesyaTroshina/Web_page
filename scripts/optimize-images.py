@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Сканирует assets/foto robot/, собирает works-manifest, WebP thumb/full, hero и прочие медиа."""
+"""Сканирует assets/foto/, собирает works-manifest, WebP thumb/full, hero и прочие медиа."""
 
 from __future__ import annotations
 
@@ -15,7 +15,10 @@ Image.MAX_IMAGE_PIXELS = 200_000_000
 ROOT = Path(__file__).resolve().parent.parent
 MANIFEST_PATH = ROOT / "works-manifest.json"
 WEB = ROOT / "assets" / "web"
-FOTO = ROOT / "assets" / "foto robot"
+FOTO = ROOT / "assets" / "foto"
+FOTO_LEGACY = ROOT / "assets" / "foto robot"
+FOTO_PREFIX = "assets/foto/"
+FOTO_LEGACY_PREFIX = "assets/foto robot/"
 
 THUMB_MAX = 560
 FULL_MAX = 1800
@@ -29,21 +32,37 @@ FULL_QUALITY = 85
 
 IMAGE_EXT = {".jpg", ".jpeg", ".png", ".webp"}
 SKIP_DIR_NAMES = {".picasaoriginals", "__pycache__"}
-HERO_CATEGORY = "Торты"
-ABOUT_CATEGORY = "Зефирные композиции"
+CATEGORY_DISPLAY = {
+    "cakes": "Торты",
+    "marshmallow": "Зефирные композиции",
+    "easter-baking": "Пасхальная выпечка",
+}
+SOURCE_FOLDER_TO_SLUG = {
+    "Торты": "cakes",
+    "Зефирные композиции": "marshmallow",
+    "Пасхальная выпечка": "easter-baking",
+    "cakes": "cakes",
+    "marshmallow": "marshmallow",
+    "easter-baking": "easter-baking",
+}
+HERO_FOLDER = "cakes"
+ABOUT_FOLDER = "marshmallow"
 ABOUT_PREFERRED = "1.jpg"
 
 
 def web_path(kind: str, source_rel: str) -> Path:
     rel = source_rel.replace("\\", "/")
-    if rel.startswith("assets/foto robot/"):
-        rel = rel[len("assets/foto robot/") :]
+    if rel.startswith(FOTO_PREFIX):
+        rel = rel[len(FOTO_PREFIX) :]
+    elif rel.startswith(FOTO_LEGACY_PREFIX):
+        rel = rel[len(FOTO_LEGACY_PREFIX) :]
     stem = Path(rel).stem
     cat = str(Path(rel).parent).replace("\\", "/")
-    if cat in (".", ""):
+    cat_slug = SOURCE_FOLDER_TO_SLUG.get(cat, cat)
+    if cat_slug in (".", ""):
         out_dir = WEB / kind
     else:
-        out_dir = WEB / kind / cat
+        out_dir = WEB / kind / cat_slug
     out_dir.mkdir(parents=True, exist_ok=True)
     return out_dir / f"{stem}.webp"
 
@@ -96,12 +115,6 @@ def rel_posix(p: Path) -> str:
     return p.relative_to(ROOT).as_posix()
 
 
-def category_id(title: str) -> str:
-    slug = title.lower().strip()
-    slug = re.sub(r"\s+", "-", slug)
-    return slug
-
-
 def image_sort_key(path: Path) -> tuple:
     stem = path.stem
     direct_date = re.match(r"^(\d{8})", stem)
@@ -126,20 +139,31 @@ def list_category_images(cat_dir: Path) -> list[Path]:
     return sorted(files, key=image_sort_key)
 
 
-def scan_foto_albums() -> list[tuple[str, list[Path]]]:
-    if not FOTO.is_dir():
-        print(f"foto album root missing: {FOTO}", file=sys.stderr)
+def resolve_foto_root() -> Path:
+    if FOTO.is_dir():
+        return FOTO
+    if FOTO_LEGACY.is_dir():
+        return FOTO_LEGACY
+    return FOTO
+
+
+def scan_foto_albums() -> list[tuple[str, str, list[Path]]]:
+    foto_root = resolve_foto_root()
+    if not foto_root.is_dir():
+        print(f"foto album root missing: {FOTO} / {FOTO_LEGACY}", file=sys.stderr)
         return []
-    albums: list[tuple[str, list[Path]]] = []
-    for cat_dir in sorted(FOTO.iterdir(), key=lambda p: p.name.casefold()):
+    albums: list[tuple[str, str, list[Path]]] = []
+    for cat_dir in sorted(foto_root.iterdir(), key=lambda p: p.name.casefold()):
         if not cat_dir.is_dir():
             continue
         if cat_dir.name.startswith(".") or cat_dir.name in SKIP_DIR_NAMES:
             continue
         images = list_category_images(cat_dir)
         if images:
-            albums.append((cat_dir.name, images))
-            print(f"  {cat_dir.name}: {len(images)} photo(s)")
+            folder_slug = SOURCE_FOLDER_TO_SLUG.get(cat_dir.name, cat_dir.name)
+            title = CATEGORY_DISPLAY.get(folder_slug, cat_dir.name)
+            albums.append((folder_slug, title, images))
+            print(f"  {title} ({folder_slug}): {len(images)} photo(s)")
     return albums
 
 
@@ -160,9 +184,9 @@ def pick_newest(paths: list[Path]) -> Path | None:
     return max(paths, key=image_sort_key)
 
 
-def pick_about_source(albums: list[tuple[str, list[Path]]]) -> Path | None:
-    for title, images in albums:
-        if title != ABOUT_CATEGORY:
+def pick_about_source(albums: list[tuple[str, str, list[Path]]]) -> Path | None:
+    for folder_slug, _title, images in albums:
+        if folder_slug != ABOUT_FOLDER:
             continue
         preferred = next((p for p in images if p.name.lower() == ABOUT_PREFERRED.lower()), None)
         return preferred or images[0]
@@ -177,7 +201,7 @@ def write_js_global(path: Path, var_name: str, data: object) -> None:
 
 
 def main() -> int:
-    print("=== Scan assets/foto robot ===")
+    print("=== Scan assets/foto ===")
     albums = scan_foto_albums()
     if not albums:
         print("No albums found", file=sys.stderr)
@@ -187,15 +211,15 @@ def main() -> int:
     tort_images: list[Path] = []
 
     print("\n=== Portfolio thumb/full ===")
-    for title, sources in albums:
-        new_cat = {"title": title, "id": category_id(title), "images": []}
+    for folder_slug, title, sources in albums:
+        new_cat = {"title": title, "id": folder_slug, "images": []}
         for src in sources:
             entry = process_source_image(src)
             if entry:
                 new_cat["images"].append(entry)
         if new_cat["images"]:
             manifest["categories"].append(new_cat)
-        if title == HERO_CATEGORY:
+        if folder_slug == HERO_FOLDER:
             tort_images = sources
 
     hero_src = pick_newest(tort_images)
@@ -203,17 +227,17 @@ def main() -> int:
         hero_entry = process_source_image(hero_src)
         if hero_entry:
             manifest["hero"] = {
-                "title": HERO_CATEGORY,
+                "title": CATEGORY_DISPLAY.get(HERO_FOLDER, HERO_FOLDER),
                 "source": rel_posix(hero_src),
                 "thumb": hero_entry["thumb"],
                 "full": hero_entry["full"],
             }
-            print(f"\n=== Hero (newest in «{HERO_CATEGORY}»: {hero_src.name}) ===")
+            print(f"\n=== Hero (newest in {HERO_FOLDER}: {hero_src.name}) ===")
             save_webp(hero_src, WEB / "hero.webp", HERO_MAX, FULL_QUALITY)
         else:
             print("\n=== Hero ===\n  skip: could not process newest tort photo")
     else:
-        print(f"\n=== Hero ===\n  skip: no photos in «{HERO_CATEGORY}»")
+        print(f"\n=== Hero ===\n  skip: no photos in «{HERO_FOLDER}»")
 
     about_src = pick_about_source(albums)
     print("\n=== About photo ===")

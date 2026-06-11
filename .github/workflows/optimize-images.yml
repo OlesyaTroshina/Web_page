@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
     paths:
+      - "assets/foto/**"
       - "assets/foto robot/**"
       - "scripts/optimize-images.py"
   workflow_dispatch:
@@ -34,7 +35,7 @@ jobs:
       - name: Commit optimized assets
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore: автообновление WebP и манифеста из foto robot"
+          commit_message: "chore: автообновление WebP и манифеста из assets/foto"
           file_pattern: |
             assets/web/**
             works-manifest.json

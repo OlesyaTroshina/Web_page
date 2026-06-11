@@ -66,27 +66,237 @@
     };
   }
 
+  var HERO_DEFAULT_SRC = 'assets/web/hero.webp?v=20260524a';
+  var __heroPickOnce = null;
+
+  function encodeAssetPath(path) {
+    if (!path || /^https?:\/\//i.test(path)) return path;
+    return path
+      .split('/')
+      .map(function (part) {
+        if (!part) return part;
+        if (/[^\u0020-\u007E]/.test(part)) {
+          try {
+            return encodeURIComponent(decodeURIComponent(part));
+          } catch (e) {
+            return encodeURIComponent(part);
+          }
+        }
+        return part;
+      })
+      .join('/');
+  }
+
+  function stripAssetQuery(path) {
+    return (path || '').replace(/\?.*$/, '');
+  }
+
   function pickHeroFromManifest(data) {
-    var heroWeb = 'assets/web/hero.webp';
+    var exclude = {};
+    exclude[stripAssetQuery(HERO_DEFAULT_SRC)] = true;
     if (data.hero) {
-      var hero = normalizeManifestImage(data.hero);
-      if (hero.full) {
-        return { src: hero.full, title: data.hero.title || 'Торты' };
-      }
+      var heroRef = normalizeManifestImage(data.hero);
+      if (heroRef.thumb) exclude[stripAssetQuery(heroRef.thumb)] = true;
+      if (heroRef.full) exclude[stripAssetQuery(heroRef.full)] = true;
     }
+
+    var pool = [];
     var cats = data.categories || [];
     for (var i = 0; i < cats.length; i++) {
       var cat = cats[i];
-      if (cat.id === 'торты' || /торт/i.test(cat.title || '')) {
-        var imgs = cat.images || [];
-        if (imgs.length) {
-          var last = normalizeManifestImage(imgs[imgs.length - 1]);
-          return { src: last.full || heroWeb, title: cat.title || 'Торты' };
-        }
+      if (cat.id === 'cakes' || cat.id === 'торты' || /торт/i.test(cat.title || '')) {
+        (cat.images || []).forEach(function (item) {
+          var img = normalizeManifestImage(item);
+          var full = img.full || '';
+          var thumb = img.thumb || '';
+          if ((full && exclude[stripAssetQuery(full)]) || (thumb && exclude[stripAssetQuery(thumb)])) {
+            return;
+          }
+          if (full) {
+            pool.push({
+              src: full,
+              fallback: thumb && thumb !== full ? thumb : '',
+              title: cat.title || 'Торты'
+            });
+          } else if (thumb) {
+            pool.push({ src: thumb, fallback: '', title: cat.title || 'Торты' });
+          }
+        });
         break;
       }
     }
-    return { src: heroWeb, title: 'Торты' };
+
+    if (!pool.length) {
+      if (data.hero) {
+        var hero = normalizeManifestImage(data.hero);
+        if (hero.thumb || hero.full) {
+          return {
+            src: hero.full || hero.thumb,
+            fallback: hero.thumb && hero.thumb !== hero.full ? hero.thumb : '',
+            title: data.hero.title || 'Торты'
+          };
+        }
+      }
+      return { src: HERO_DEFAULT_SRC, title: 'Торты' };
+    }
+
+    var pick = pool[Math.floor(Math.random() * pool.length)];
+    return { src: pick.src, fallback: pick.fallback, title: pick.title };
+  }
+
+  function getHeroPick(data) {
+    if (__heroPickOnce) return __heroPickOnce;
+    __heroPickOnce = pickHeroFromManifest(data);
+    return __heroPickOnce;
+  }
+
+  function rememberHeroDefaults(heroImg) {
+    if (!heroImg || heroImg.dataset.heroFallback) return;
+    heroImg.dataset.heroFallback = heroImg.currentSrc || heroImg.getAttribute('src') || HERO_DEFAULT_SRC;
+    heroImg.dataset.heroAltFallback = heroImg.alt || 'Торт ручной работы — Олеся Трошина';
+    var picture = heroImg.closest ? heroImg.closest('picture') : null;
+    if (picture) {
+      var source = picture.querySelector('source');
+      if (source && source.getAttribute('srcset')) {
+        heroImg.dataset.heroSourceFallback = source.getAttribute('srcset');
+      }
+    }
+  }
+
+  function commitHeroPhoto(heroImg, src, alt, fromManifest) {
+    var picture = heroImg.closest ? heroImg.closest('picture') : null;
+    if (picture) {
+      var source = picture.querySelector('source');
+      if (source) {
+        if (/\.webp(?:\?|$)/i.test(src)) {
+          source.setAttribute('srcset', src);
+          source.type = 'image/webp';
+        } else {
+          source.removeAttribute('srcset');
+          source.removeAttribute('type');
+        }
+      }
+    }
+    heroImg.removeAttribute('srcset');
+    heroImg.src = src;
+    var preload = document.querySelector('link[rel="preload"][as="image"][href*="hero"]');
+    if (preload) preload.setAttribute('href', src);
+    if (fromManifest) {
+      heroImg.alt = alt;
+    }
+    heroImg.onerror = function () {
+      revertHeroPhoto(heroImg);
+    };
+  }
+
+  function revertHeroPhoto(heroImg) {
+    if (!heroImg) return;
+    var fallback = heroImg.dataset.heroFallback || HERO_DEFAULT_SRC;
+    var picture = heroImg.closest ? heroImg.closest('picture') : null;
+    if (picture) {
+      var source = picture.querySelector('source');
+      if (source) {
+        if (heroImg.dataset.heroSourceFallback) {
+          source.setAttribute('srcset', heroImg.dataset.heroSourceFallback);
+          source.type = 'image/webp';
+        }
+      }
+    }
+    heroImg.onerror = null;
+    heroImg.src = fallback;
+    heroImg.alt = heroImg.dataset.heroAltFallback || 'Торт ручной работы — Олеся Трошина';
+  }
+
+  function applyHeroPhoto(heroPick) {
+    if (!heroPick) return;
+    var heroImg = document.querySelector('.hero__photo');
+    if (!heroImg) return;
+    rememberHeroDefaults(heroImg);
+
+    var alt = 'Торт ручной работы — ' + (heroPick.title || 'Торты');
+    var candidates = [];
+    if (heroPick.src) candidates.push(heroPick.src);
+    if (heroPick.fallback && candidates.indexOf(heroPick.fallback) === -1) {
+      candidates.push(heroPick.fallback);
+    }
+    var builtIn = heroImg.dataset.heroFallback || HERO_DEFAULT_SRC;
+    if (candidates.indexOf(builtIn) === -1) candidates.push(builtIn);
+
+    function pathVariants(raw) {
+      var variants = [];
+      if (raw) {
+        variants.push(raw);
+        var enc = encodeAssetPath(raw);
+        if (enc && variants.indexOf(enc) === -1) variants.push(enc);
+      }
+      return variants;
+    }
+
+    var probeQueue = [];
+    candidates.forEach(function (raw, candidateIdx) {
+      var fromManifest = candidateIdx < candidates.length - 1;
+      pathVariants(raw).forEach(function (src) {
+        probeQueue.push({ src: src, fromManifest: fromManifest });
+      });
+    });
+
+    function tryProbe(idx) {
+      if (idx >= probeQueue.length) {
+        revertHeroPhoto(heroImg);
+        return;
+      }
+      var item = probeQueue[idx];
+      var probe = new Image();
+      probe.onload = function () {
+        commitHeroPhoto(heroImg, item.src, alt, item.fromManifest);
+      };
+      probe.onerror = function () {
+        tryProbe(idx + 1);
+      };
+      probe.src = item.src;
+    }
+
+    tryProbe(0);
+  }
+
+  function tryApplyHeroFromManifest() {
+    var cached = parseWorksManifestFromDom();
+    if (cached) applyHeroPhoto(getHeroPick(cached));
+    loadWorksManifest('works-manifest.json')
+      .then(function (data) {
+        applyHeroPhoto(getHeroPick(data));
+      })
+      .catch(function () {});
+  }
+
+  function bootHeroFromManifestSync() {
+    try {
+      var data = parseWorksManifestFromDom();
+      if (data) applyHeroPhoto(getHeroPick(data));
+    } catch (err) {
+      if (typeof console !== 'undefined' && console.warn) {
+        console.warn('[Сладость в радость] hero boot', err);
+      }
+    }
+  }
+
+  function pickInitialStackOffset(poolLen, catId) {
+    if (!poolLen || poolLen <= 1) return 0;
+    if (!global.__worksStackOffsets) global.__worksStackOffsets = {};
+    if (global.__worksStackOffsets[catId] != null) {
+      return global.__worksStackOffsets[catId] % poolLen;
+    }
+    var seed = Math.floor(Math.random() * poolLen);
+    global.__worksStackOffsets[catId] = seed;
+    return seed;
+  }
+
+  function rememberStackOffsets(columnState, cats) {
+    if (!global.__worksStackOffsets) global.__worksStackOffsets = {};
+    columnState.forEach(function (cre, i) {
+      var id = cats[i] && cats[i].id ? cats[i].id : 'col-' + i;
+      global.__worksStackOffsets[id] = cre.offset;
+    });
   }
 
   function isBorderGlowButton(el) {
@@ -276,7 +486,23 @@
       var wrap = document.createElement('div');
     wrap.className = isTile ? 'border-glow-card border-glow-card--tile' : 'border-glow-card border-glow-card--btn';
     if (!isTile && btn.classList && btn.classList.contains('floating-cta')) {
-      wrap.classList.add('border-glow-card--floating');
+      var inPageBlock = btn.closest(
+        '.app-assistant, .cta__panel, .cookbook__cta, .hero__actions, .cookbook__showcase'
+      );
+      var inDock = btn.closest('.floating-dock');
+      if (inDock) {
+        wrap.classList.add('border-glow-card--dock');
+        if (btn.classList.contains('floating-cta--assistant')) {
+          wrap.classList.add('border-glow-card--assistant-tint');
+        }
+      } else if (!inPageBlock) {
+        wrap.classList.add('border-glow-card--floating');
+        if (btn.classList.contains('floating-cta--assistant')) {
+          wrap.classList.add('border-glow-card--floating-assistant');
+        }
+      } else if (btn.classList.contains('floating-cta--assistant')) {
+        wrap.classList.add('border-glow-card--assistant-tint');
+      }
     }
       var inner = document.createElement('div');
     inner.className = isTile
@@ -307,6 +533,21 @@
     );
 
     watchBorderGlowReveal(wrap);
+  }
+
+  /** Номера шагов — только CSS (.step__badge), без вложенного BorderGlow */
+  function unwrapStepNumbersFromBorderGlow() {
+    document.querySelectorAll('main#top .step .border-glow-card--btn').forEach(function (wrap) {
+      var num = wrap.querySelector('.step__num');
+      if (!num) return;
+      var badge = wrap.closest('.step__badge');
+      if (badge) {
+        badge.appendChild(num);
+      } else if (wrap.parentNode) {
+        wrap.parentNode.insertBefore(num, wrap);
+      }
+      wrap.remove();
+    });
   }
 
   function initBorderGlow(selector, options) {
@@ -705,7 +946,7 @@
       var inner = document.createElement('div');
       inner.className = 'photo-stack-card';
       var img = document.createElement('img');
-      img.src = slice[i];
+      img.src = encodeAssetPath(slice[i]);
       img.alt = (options.categoryTitle ? String(options.categoryTitle).trim() + ' · ' : '') + 'фото ' + (i + 1);
       img.draggable = false;
       img.loading = 'lazy';
@@ -928,11 +1169,13 @@
           columnState.push({
             mount: mount,
             pool: pool,
-            offset: 0,
+            offset: pickInitialStackOffset(pool.length, cat.id || cat.title || 'col-' + columnState.length),
             title: cat.title,
+            catId: cat.id || cat.title || 'col-' + columnState.length,
             _destroy: null
           });
         });
+        rememberStackOffsets(columnState, cats);
 
         function takeStackUrls(pool, offset, depth) {
           var out = [];
@@ -999,6 +1242,7 @@
               var len = Math.max(1, cre.pool.length);
               cre.offset = (cre.offset + WORKS_STACK_DEPTH) % len;
             });
+            rememberStackOffsets(columnState, cats);
             paintStacks();
           }, WORKS_STACK_POOL_MS);
         }
@@ -1014,14 +1258,7 @@
           statusEl.classList.add('works-status--hide');
         }
 
-        var heroImg = document.querySelector('.hero__photo');
-        if (heroImg) {
-          var heroPick = pickHeroFromManifest(data);
-          if (heroPick && heroPick.src) {
-            heroImg.src = heroPick.src;
-            heroImg.alt = 'Торт ручной работы — ' + heroPick.title;
-          }
-        }
+        applyHeroPhoto(getHeroPick(data));
 
         var moreBtn = document.getElementById('works-more-btn');
         if (moreBtn && allSlides.length) {
@@ -1078,6 +1315,7 @@
   }
 
   function initAll() {
+    tryApplyHeroFromManifest();
     if (!global.gsap) {
       if (typeof console !== 'undefined' && console.warn) {
         console.warn('[Сладость в радость] GSAP не загружен — CardSwap, стек «Работы» и BounceCards отключены. Проверьте vendor/gsap.min.js.');
@@ -1138,16 +1376,22 @@
     };
     __sladostBorderGlowOpts = rainbowGlowOpts;
     try {
+      unwrapStepNumbersFromBorderGlow();
       initBorderGlow(SLADOST_TILE_GLOW_SELECTOR, tileGlowOpts);
-      initBorderGlow('.footer__link, .footer__addr a', linkGlowOpts);
+      unwrapStepNumbersFromBorderGlow();
+      initBorderGlow('.footer__aside .footer__link', linkGlowOpts);
       initBorderGlow(
         '.btn:not(.btn--no-glow), .floating-cta, .theme-toggle, .mini-btn, .carousel-glass-btn, .social-btn',
         rainbowGlowOpts
       );
+      unwrapStepNumbersFromBorderGlow();
       syncBorderGlowRevealsAfterInit();
       document.querySelectorAll('.reveal.visible').forEach(function (el) {
         boltBorderGlowForReveal(el);
       });
+      if (global.SladostSite && typeof global.SladostSite.refreshPdConsentGate === 'function') {
+        global.SladostSite.refreshPdConsentGate();
+      }
     } catch (e) {
       if (typeof console !== 'undefined' && console.error) console.error('[BorderGlow]', e);
     }
@@ -1161,6 +1405,8 @@
     initCardSwap: initCardSwap,
     initBounceCards: initBounceCards,
     initWorksBounce: initWorksBounce,
+    applyHeroPhoto: applyHeroPhoto,
+    tryApplyHeroFromManifest: tryApplyHeroFromManifest,
     initAll: initAll
   };
 
@@ -1180,5 +1426,6 @@
       window.addEventListener('load', run, { once: true });
     }
   }
+  bootHeroFromManifestSync();
   scheduleSladostBoot();
 })(typeof window !== 'undefined' ? window : this);
