@@ -381,11 +381,12 @@
 
 /* Кнопки: 99% прозрачности — выпуклая лупа, без blur (blur = «муть») */
 .border-glow-surface--lens {
-  display: inline-flex;
+  display: flex;
   flex-direction: row;
   align-items: stretch;
-  width: auto;
+  width: 100%;
   min-height: 0;
+  box-sizing: border-box;
   background: rgba(255, 255, 255, 0.01) !important;
   backdrop-filter: brightness(1.12) contrast(1.06) saturate(1.05) !important;
   -webkit-backdrop-filter: brightness(1.12) contrast(1.06) saturate(1.05) !important;
@@ -485,7 +486,18 @@
 
 .border-glow-card--btn .border-glow-inner > .btn,
 .border-glow-card--btn .border-glow-inner > .floating-cta,
-.border-glow-card--btn .border-glow-inner > a,
+.border-glow-card--btn .border-glow-inner > a {
+  position: relative;
+  z-index: 1;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  isolation: auto;
+  width: 100%;
+  box-sizing: border-box;
+  justify-content: center;
+}
+
 .border-glow-inner > .theme-toggle,
 .border-glow-inner > .social-btn,
 .border-glow-inner > .carousel-glass-btn,
@@ -740,9 +752,17 @@ html[data-theme="dark"] .works-carousel__track .border-glow-card--btn:has(.works
 
 .cta__panel .border-glow-card--btn {
   display: flex;
-  width: 100%;
-  max-width: none;
+  max-width: 100%;
   box-sizing: border-box;
+}
+
+.cta__actions .border-glow-card--btn {
+  width: 100%;
+}
+
+.cta__panel--app > .border-glow-card--btn {
+  align-self: flex-start;
+  width: auto;
 }
 
 .cta__panel .border-glow-card--btn + .border-glow-card--btn,
@@ -755,20 +775,6 @@ html[data-theme="dark"] .works-carousel__track .border-glow-card--btn:has(.works
 .cta__actions .border-glow-card--btn + .btn,
 .cta__actions .btn + .border-glow-card--btn {
   margin-top: 0;
-}
-
-.cta__actions .border-glow-inner > .btn,
-.cta__actions .border-glow-inner > a {
-  width: 100%;
-  flex: 1 1 auto;
-  justify-content: center;
-}
-
-.cta__panel--app .border-glow-inner > .btn,
-.cta__panel--app .border-glow-inner > a {
-  width: 100%;
-  flex: 1 1 auto;
-  justify-content: center;
 }
 
 .cta__panel--app .border-glow-card--btn:first-of-type {

@@ -2874,11 +2874,8 @@ body.works-carousel-lock {
   margin-top: 12px;
 }
 
-.cta__panel--app > .btn,
 .cta__panel--app > .border-glow-card--btn {
-  width: 100%;
-  display: flex;
-  box-sizing: border-box;
+  align-self: flex-start;
 }
 
 .cta__inner {
